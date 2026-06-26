@@ -1,4 +1,14 @@
 <?php
+/// CỔNG AJAX NỘI BỘ WP: Trả về link ảnh nhanh cho trình soạn thảo
+add_action('wp_ajax_get_tablepress_image_preview', function() {
+    $table_id = isset($_POST['table_id']) ? sanitize_text_field($_POST['table_id']) : '';
+    if (empty($table_id)) {
+        wp_send_json_error();
+    }
+    $meta = get_option( 'tablepress_meta_' . $table_id, [] );
+    $image_url = $meta['image'] ?? '';
+    wp_send_json_success(['image' => $image_url]);
+});
 
 add_action('acf/input/admin_footer', 'tablepress_acf_quick_edit');
 function tablepress_acf_quick_edit() {
@@ -89,6 +99,129 @@ function tablepress_acf_quick_edit() {
 							editor.on('mousedown', function() {
                                 hideMenu();
                             });
+
+                            var cachedImages = {};
+                            function loadTableImage(tableId, callback) {
+                                if (cachedImages[tableId] !== undefined) {
+                                    return callback(cachedImages[tableId]);
+                                }
+                                $.ajax({
+                                    url: '<?php echo admin_url("admin-ajax.php"); ?>',
+                                    method: 'POST',
+                                    data: {
+                                        action: 'get_tablepress_image_preview',
+                                        table_id: tableId
+                                    },
+                                    success: function(response) {
+                                        var url = (response && response.success) ? response.data.image : '';
+                                        cachedImages[tableId] = url;
+                                        callback(url);
+                                    },
+                                    error: function() {
+                                        cachedImages[tableId] = '';
+                                        callback('');
+                                    }
+                                });
+                            }
+
+                            // 1. ĐỊNH NGHĨA HÀM QUÉT ẢNH (Truyền editor vào trực tiếp để xử lý khi load trang)
+                            function scanShortcodes(ed) {
+                                if (!ed || typeof ed.getBody !== 'function') return;
+                                var body = ed.getBody();
+                                var $body = $(body);
+
+                                // Duyệt qua từng dòng văn bản toàn bài
+                                $body.find('p, div, h1, h2, h3, h4, h5, h6').each(function() {
+                                    var $line = $(this);
+                                    
+                                    if ($line.closest('.tp-preview-block').length > 0) return;
+
+                                    var $tempClone = $line.clone();
+                                    $tempClone.find('.tp-preview-block').remove();
+                                    var lineText = $tempClone.text().trim();
+
+                                    var regexLine = /\[table\s+id=["']?([a-zA-Z0-9_\-]+)["']?\s*\/\]/i;
+                                    var matchLine = regexLine.exec(lineText);
+
+                                    if (matchLine && matchLine[1]) {
+                                        var tableId = matchLine[1];
+
+                                        // BƯỚC THAY ĐỔI CỐT LÕI: Nếu dòng có sẵn khối ảnh của ID này rồi (Do Paste vào) -> GIỮ NGUYÊN, THOÁT LUÔN
+                                        var $existingPreview = $line.find('.tp-preview-block[data-id="' + tableId + '"]');
+                                        if ($existingPreview.length > 0) return; 
+
+                                        // Chỉ dọn các khối ảnh lạc loài của ID KHÁC nếu có (Xử lý khi người dùng đổi ID bảng)
+                                        $line.find('.tp-preview-block').not('[data-id="' + tableId + '"]').remove();
+
+                                        if ($line.attr('data-loading') === 'true') return;
+                                        $line.attr('data-loading', 'true');
+
+                                        loadTableImage(tableId, function(url) {
+                                            $line.removeAttr('data-loading');
+
+                                            if ($line.find('.tp-preview-block[data-id="' + tableId + '"]').length > 0) return;
+
+                                            if (url && url.trim() !== '') {
+                                                var $previewBlock = $('<div class="tp-preview-block" data-id="' + tableId + '" contenteditable="false" ' +
+                                                    'style="margin: 10px 0; padding: 5px; background: #fff; border: 1px solid #ccd0d4; border-radius: 4px; display: table; max-width: 100%; ' +
+                                                    'user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; pointer-events: none;">' +
+                                                    '<img class="tp-live-preview" src="' + url + '" style="display:block; max-height:150px; width:auto; object-fit:contain; pointer-events: none;" />' +
+                                                    '</div>');
+                                                $line.append($previewBlock);
+                                            }
+                                        });
+                                    } else {
+                                        if ($line.find('.tp-preview-block').length > 0) {
+                                            $line.find('.tp-preview-block').remove();
+                                        }
+                                        $line.removeAttr('data-loading');
+                                    }
+                                });
+                            }
+
+                            // 2. GÁN SỰ KIỆN KHI NGƯỜI DÙNG THAO TÁC GÕ PHÍM
+                            editor.on('KeyUp Change NodeChange', function() {
+                                scanShortcodes(editor);
+                            });
+                            
+                            // 3. XỬ LÝ CHO INIT: Ép chạy quét ngay lập tức dựa theo trạng thái sẵn sàng của TinyMCE
+                            if (editor.initialized) {
+                                scanShortcodes(editor);
+                            } else {
+                                editor.on('init', function() {
+                                    scanShortcodes(editor);
+                                });
+                            }
+
+                            editor.on('contextmenu click', function(e) {
+                                if ($(e.target).hasClass('tp-live-preview') || $(e.target).closest('.tp-preview-block').length > 0) {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    return false;
+                                }
+                            });
+
+                            editor.on('copy', function(e) {
+                                var selectedHtml = editor.selection.getContent({format: 'html'});
+                                
+                                // Nếu trong vùng bôi đen copy có dính khối ảnh preview
+                                if (selectedHtml && selectedHtml.indexOf('tp-preview-block') !== -1) {
+                                    e.preventDefault(); // Chặn hành vi copy mặc định dính file ảnh lỗi
+                                    
+                                    var $tempDiv = $('<div>').html(selectedHtml);
+                                    // Lọc bỏ sạch sẽ khối ảnh ra khỏi bộ nhớ tạm
+                                    $tempDiv.find('.tp-preview-block').remove();
+                                    
+                                    var cleanHtml = $tempDiv.html();
+                                    if (e.clipboardData) {
+                                        // Chỉ lưu lại chữ thô kèm shortcode sạch vào bộ nhớ
+                                        e.clipboardData.setData('text/html', cleanHtml);
+                                        var cleanText = $('<div>').html(cleanHtml).text();
+                                        e.clipboardData.setData('text/plain', cleanText);
+                                    }
+                                }
+                            });
+                            
                         }
                     });
                 }
