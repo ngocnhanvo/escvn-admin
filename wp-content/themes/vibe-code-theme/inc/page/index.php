@@ -16,12 +16,24 @@ function redirect_api_domain_to_frontend() {
             $current_slug = $wp->request ?? ''; 
             
             // Nếu slug trống (trang chủ), hoặc chỉ định đích danh 'gioi-thieu'
-            if ( $current_slug ) {
+			if ( $current_slug ) {
 				$domain = get_site_domain();
-                $target_url = 'https://'.$domain.'/preview/'.$current_slug;
-                wp_redirect( $target_url, 302 );
-                exit;
-            }
+				
+				// Tự động xác định giao thức: nếu là localhost hoặc không phải SSL thì dùng http
+				$protocol = ( is_ssl() || strpos( $domain, 'localhost' ) === false ) ? 'https://' : 'http://';
+				
+				// Nếu bạn muốn ép buộc tất cả localhost dùng http, có thể viết rõ ràng hơn:
+				if ( strpos( $domain, 'localhost' ) !== false ) {
+					$protocol = 'http://';
+				} else {
+					$protocol = is_ssl() ? 'https://' : 'http://';
+				}
+
+				$target_url = $protocol . $domain . '/preview/' . $current_slug;
+				
+				wp_redirect( $target_url, 302 );
+				exit;
+			}
         }
     }
 }
