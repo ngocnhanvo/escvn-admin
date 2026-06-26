@@ -1,0 +1,1136 @@
+# Translation of Plugins - User Role Editor - Stable (latest release) in Vietnamese
+# This file is distributed under the same license as the Plugins - User Role Editor - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2026-05-21 04:02:39+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: GlotPress/4.0.3\n"
+"Language: vi_VN\n"
+"Project-Id-Version: Plugins - User Role Editor - Stable (latest release)\n"
+
+#: includes/classes/screen-help.php:87
+msgid "Turn this option on in order to remove this limitation."
+msgstr "Bật tùy chọn này để loại bỏ giới hạn này."
+
+#: includes/classes/screen-help.php:86
+msgid "Super administrator only may create, edit and delete users under WordPress multi-site by default."
+msgstr "Chỉ siêu quản trị viên mới có thể tạo, chỉnh sửa và xóa người dùng trong WordPress đa trang theo mặc định."
+
+#: includes/classes/screen-help.php:69
+msgid "in order to be assigned to the new registered users."
+msgstr "để được gán cho người dùng đã đăng ký mới."
+
+#: includes/classes/screen-help.php:68
+msgid "Note for multisite environment: take into account that other default roles should exist at the site,"
+msgstr "Lưu ý đối với môi trường đa trang: hãy tính đến việc các vai trò mặc định khác nên tồn tại trên trang web,"
+
+#: includes/classes/screen-help.php:67
+msgid "select roles below to assign them to the new user automatically as an addition to the primary role."
+msgstr "chọn các vai trò bên dưới để tự động gán chúng cho người dùng mới như là một bổ sung cho vai trò chính."
+
+#: includes/classes/screen-help.php:49
+msgid "an empty role \"No rights\", in order to look on the users list with role \"No rights\" at the separate tab then."
+msgstr "một vai trò trống \"Không có quyền\", để xem danh sách người dùng với vai trò \"Không có quyền\" ở tab riêng biệt sau đó."
+
+#: includes/classes/screen-help.php:30
+msgid "He should do it using roles only."
+msgstr "Anh ấy nên làm điều đó chỉ bằng cách sử dụng vai trò."
+
+#: includes/classes/screen-help.php:29
+msgid "Administrator can not assign capabilities to the user directly."
+msgstr "Quản trị viên không thể gán khả năng cho người dùng trực tiếp."
+
+#: includes/classes/screen-help.php:28
+msgid "If turned off - capabilities section of selected user is shown in readonly mode."
+msgstr "Nếu tắt - phần khả năng của người dùng đã chọn được hiển thị ở chế độ chỉ đọc."
+
+#: includes/classes/screen-help.php:24
+msgid "Turning on this option will show those deprecated capabilities."
+msgstr "Bật tùy chọn này sẽ hiển thị các khả năng đã lỗi thời đó."
+
+#: includes/classes/screen-help.php:23
+msgid "They are left at the user roles for the compatibility purpose with old themes and plugins code."
+msgstr "Chúng được giữ lại ở các vai trò người dùng vì mục đích tương thích với mã giao diện và plugin cũ."
+
+#: includes/classes/screen-help.php:22
+msgid "Capabilities like \"level_0\", \"level_1\" are deprecated and are not used by WordPress."
+msgstr "Khả năng như \"level_0\", \"level_1\" đã lỗi thời và không được WordPress sử dụng."
+
+#: includes/classes/screen-help.php:18
+msgid "It is hidden by default for security reasons."
+msgstr "Nó bị ẩn theo mặc định vì lý do bảo mật."
+
+#: includes/classes/grant-roles.php:563
+msgid "Select users from which you wish revoke role!"
+msgstr "Chọn người dùng mà bạn muốn thu hồi vai trò!"
+
+#: includes/classes/grant-roles.php:562
+msgid "Select users to which you wish to add role!"
+msgstr "Chọn người dùng mà bạn muốn thêm vai trò!"
+
+#: includes/classes/grant-roles.php:561
+msgid "Select role first!"
+msgstr "Vui lòng chọn vai trò trước!"
+
+#: includes/classes/grant-roles.php:203
+msgid "Error: Role not revoked"
+msgstr "Lỗi: Vai trò chưa được thu hồi"
+
+#. translators: template %d is a quantity of users to whom role was added
+#: includes/classes/grant-roles.php:200
+msgid "Role revoked from %d user(s)."
+msgstr "Vai trò đã được thu hồi từ %d người dùng."
+
+#: includes/classes/grant-roles.php:114
+msgid "Error: Role not added"
+msgstr "Lỗi: Vai trò chưa được thêm"
+
+#. translators: template %d is a quantity of users to whom role was added
+#: includes/classes/grant-roles.php:111
+msgid "Role added to %d user(s)."
+msgstr "Vai trò đã được thêm vào %d người dùng."
+
+#: includes/classes/grant-roles.php:93 includes/classes/grant-roles.php:179
+msgid "Invalid role"
+msgstr "Vai trò không hợp lệ"
+
+#: includes/classes/grant-roles.php:81 includes/classes/grant-roles.php:167
+msgid "Empty users list"
+msgstr "Danh sách người dùng trống"
+
+#: includes/classes/screen-help.php:48
+msgid "Show at the \"Users\" page a quant of users without role. Module allows to assign all of them "
+msgstr "Hiển thị trên trang \"Người dùng\" số lượng người dùng không có vai trò. Mô-đun cho phép gán tất cả chúng "
+
+#: includes/classes/screen-help.php:17
+msgid "turn this option on in order to make the \"Administrator\" role available at the User Role Editor roles selection drop-down list."
+msgstr "bật tùy chọn này để hiển thị vai trò \"Quản trị viên\" trong danh sách thả xuống lựa chọn vai trò của Trình chỉnh sửa Vai trò Người dùng."
+
+#: includes/classes/capability.php:92
+msgid "Wrong Request"
+msgstr "Yêu cầu không hợp lệ"
+
+#: includes/classes/editor.php:1292
+msgid "Wrong role ID"
+msgstr "ID vai trò không hợp lệ"
+
+#: includes/classes/editor.php:1264
+msgid "There are no roles for deletion"
+msgstr "Không có vai trò nào để xóa"
+
+#: includes/classes/grant-roles.php:530
+msgid "Revoke"
+msgstr "Thu hồi"
+
+#: includes/classes/grant-roles.php:524 includes/classes/grant-roles.php:526
+msgid "Revoke role&hellip;"
+msgstr "Thu hồi vai trò…"
+
+#: includes/classes/grant-roles.php:522
+msgid "Add"
+msgstr "Thêm"
+
+#: includes/classes/grant-roles.php:516 includes/classes/grant-roles.php:518
+msgid "Add role&hellip;"
+msgstr "Thêm vai trò…"
+
+#: includes/classes/editor.php:1336
+msgid "Wrong request. Default role can not be empty"
+msgstr "Yêu cầu không chính xác. Vai trò mặc định không thể để trống"
+
+#: includes/classes/editor.php:1332
+msgid "This method is only for a single site of WordPress multisite installation."
+msgstr "Phương thức này chỉ dành cho site đơn của bản cài WordPress multisite"
+
+#: includes/classes/editor.php:1238
+msgid "You can not delete role"
+msgstr "Bạn không thể xoá role"
+
+#: includes/classes/editor.php:1234
+msgid "Role does not exist"
+msgstr "Role không tồn tại"
+
+#: includes/classes/editor.php:233
+msgid "Wrong request!"
+msgstr "Yêu cầu không hợp lệ!"
+
+#: includes/classes/capability.php:53
+msgid "Error: this word is used by WordPress as a role ID"
+msgstr "Lỗi: Từ này được WordPress sử dụng làm ID vai trò"
+
+#: includes/classes/screen-help.php:20
+msgid "automatically converts capability names from the technical form for internal use like \"edit_others_posts\" to more user friendly form, e.g. \"Edit others posts\"."
+msgstr "tự động chuyển đổi tên khả năng từ dạng kỹ thuật dùng nội bộ như \"edit_others_posts\" sang dạng thân thiện với người dùng hơn, ví dụ: \"Chỉnh sửa bài viết của người khác\"."
+
+#: includes/settings-template.php:109
+msgid "columns"
+msgstr "cột"
+
+#: includes/settings-template.php:103
+msgid "Show capabilities in"
+msgstr "Xem quyền hạn trong"
+
+#: includes/settings-template.php:44
+msgid "Tools"
+msgstr "Công cụ"
+
+#: includes/classes/view.php:340
+msgid "Columns:"
+msgstr "Cột:"
+
+#: includes/classes/view.php:321
+msgid "Group"
+msgstr "Nhóm"
+
+#: includes/classes/user-role-editor.php:813
+msgid "DANGER!"
+msgstr "NGUY HIỂM!"
+
+#: includes/classes/user-role-editor.php:764
+#: includes/classes/user-role-editor.php:811
+msgid "No"
+msgstr "Không"
+
+#: includes/classes/user-role-editor.php:763
+#: includes/classes/user-role-editor.php:810
+msgid "Yes"
+msgstr "Có"
+
+#: includes/classes/tools.php:21
+msgid "WARNING!"
+msgstr "CHÚ Ý!"
+
+#: includes/classes/view.php:321
+msgid "Total"
+msgstr "Tổng cộng"
+
+#: includes/classes/view.php:337
+msgid "Granted Only"
+msgstr "Chỉ được cấp"
+
+#: includes/classes/view.php:321
+msgid "Granted"
+msgstr "Được cấp"
+
+#: includes/classes/user-view.php:61
+msgid "Switch&nbsp;To"
+msgstr "Chuyển đến"
+
+#: includes/classes/user-role-editor.php:815
+msgid "If any plugins (such as WooCommerce, S2Member and many others) have changed user roles and capabilities during installation, all those changes will be LOST!"
+msgstr "Nếu bất kỳ plugin nào (như WooCommerce, S2Member và nhiều plugin khác) đã thay đổi vai trò và khả năng của người dùng trong quá trình cài đặt, tất cả những thay đổi đó sẽ bị MẤT!"
+
+#: includes/classes/user-role-editor.php:762
+#: includes/classes/user-role-editor.php:809
+msgid "Confirm"
+msgstr "Xác nhận"
+
+#: includes/classes/user-role-editor.php:298
+msgid "To:"
+msgstr "Đến:"
+
+#: includes/classes/tools.php:41
+msgid "Reset Roles to its original state"
+msgstr "Đặt lại Vai trò về trạng thái ban đầu"
+
+#: includes/classes/tools.php:33
+msgid "If checked, then apply action to ALL sites. Main site only is affected in other case."
+msgstr "Nếu được chọn, thì áp dụng hành động cho TẤT CẢ các trang web. Chỉ trang web chính bị ảnh hưởng trong trường hợp khác."
+
+#: includes/classes/tools.php:24
+msgid "If any plugins (such as WooCommerce, S2Member and many others) have changed user roles and capabilities during installation, those changes will be LOST!"
+msgstr "Nếu bất kỳ plugin nào (chẳng hạn như WooCommerce, S2Member và nhiều plugin khác) đã thay đổi vai trò và khả năng của người dùng trong quá trình cài đặt, những thay đổi đó sẽ BỊ MẤT!"
+
+#: includes/classes/tools.php:23
+msgid "Resetting will setup default user roles and capabilities from WordPress core."
+msgstr "Khôi phục cài đặt sẽ thiết lập các vai trò và khả năng người dùng mặc định từ WordPress core."
+
+#: includes/classes/tools.php:65
+msgid "Tools: Reset: User Roles were initialized"
+msgstr "Công cụ: Đặt lại: Vai trò người dùng đã được khởi tạo"
+
+#: includes/classes/screen-help.php:26
+msgid "Show confirmation dialog before save changes made to a current role."
+msgstr "Hiển thị hộp thoại xác nhận trước khi lưu các thay đổi được thực hiện cho một vai trò hiện tại."
+
+#: includes/classes/screen-help.php:25 includes/settings-template.php:88
+msgid "Confirm role update"
+msgstr "Xác nhận cập nhật vai trò"
+
+#: includes/classes/role-additional-options.php:114
+msgid "Additional Options"
+msgstr "Tùy chọn bổ sung"
+
+#: includes/classes/role-additional-options.php:54
+msgid "Hide admin bar"
+msgstr "Ẩn thanh quản trị"
+
+#: includes/classes/grant-roles.php:560
+msgid "Select role(s) which you wish to grant!"
+msgstr "Chọn vai trò(vai trò) mà bạn muốn cấp!"
+
+#: includes/classes/grant-roles.php:559
+msgid "Select users to which you wish to grant roles!"
+msgstr "Chọn người dùng mà bạn muốn cấp vai trò!"
+
+#: includes/classes/grant-roles.php:558
+msgid "Grant roles to selected users"
+msgstr "Cấp vai trò cho người dùng đã chọn"
+
+#: includes/classes/view.php:290
+msgid "Working..."
+msgstr "Đang xử lý..."
+
+#: includes/classes/grant-roles.php:514
+msgid "Grant Roles"
+msgstr "Cấp Vai trò"
+
+#: includes/classes/grant-roles.php:385
+msgid "Roles were granted to users successfully"
+msgstr "Vai trò đã được cấp cho người dùng thành công"
+
+#: includes/classes/grant-roles.php:376
+msgid "Invalid data at the other roles list"
+msgstr "Dữ liệu không hợp lệ trong danh sách các vai trò khác"
+
+#: includes/classes/grant-roles.php:363
+msgid "Invalid primary role"
+msgstr "Vai trò chính không hợp lệ"
+
+#: includes/classes/grant-roles.php:86 includes/classes/grant-roles.php:172
+#: includes/classes/grant-roles.php:355
+msgid "Can not edit user or invalid data at the users list"
+msgstr "Không thể chỉnh sửa người dùng hoặc dữ liệu không hợp lệ trong danh sách người dùng"
+
+#: includes/classes/grant-roles.php:76 includes/classes/grant-roles.php:162
+#: includes/classes/grant-roles.php:349 includes/classes/grant-roles.php:473
+msgid "Not enough permissions"
+msgstr "Quyền không đủ"
+
+#: includes/classes/capability.php:215 includes/classes/capability.php:220
+msgid "There are no capabilities available for deletion!"
+msgstr "Không có khả năng nào khả dụng để xóa!"
+
+#: includes/classes/capability.php:45
+msgid "Error: this capability is used internally by WordPress"
+msgstr "Lỗi: Khả năng này được WordPress sử dụng nội bộ"
+
+#: includes/classes/capabilities-groups-manager.php:196
+msgid "Deprecated"
+msgstr "Lỗi thời"
+
+#: includes/classes/user-role-editor.php:814
+msgid " Resetting will restore default user roles and capabilities from WordPress core."
+msgstr " Đặt lại sẽ khôi phục vai trò và khả năng người dùng mặc định từ WordPress core."
+
+#: includes/classes/tools.php:25
+msgid "For more information on how to undo undesired changes and restore plugins capabilities in case you lost them by mistake go to: "
+msgstr "Để biết thêm thông tin về cách hoàn tác những thay đổi không mong muốn và khôi phục khả năng của plugin trong trường hợp bạn vô tình làm mất chúng, hãy truy cập: "
+
+#: includes/classes/grant-roles.php:444
+msgid "Other Roles: "
+msgstr "Các vai trò khác: "
+
+#: includes/classes/grant-roles.php:423
+msgid "Primary Role: "
+msgstr "Vai trò chính: "
+
+#: includes/classes/capability.php:231
+msgid "capabilities were removed successfully"
+msgstr "khả năng đã được xóa thành công"
+
+#: includes/classes/capabilities-groups-manager.php:167
+msgid "Users"
+msgstr "Người dùng"
+
+#: includes/classes/capabilities-groups-manager.php:162
+msgid "Plugins"
+msgstr "Plugin"
+
+#: includes/classes/capabilities-groups-manager.php:157
+msgid "Pages"
+msgstr "Trang"
+
+#: includes/classes/capabilities-groups-manager.php:152
+msgid "Posts"
+msgstr "Bài viết"
+
+#: includes/classes/capabilities-groups-manager.php:147
+msgid "Themes"
+msgstr "Giao diện"
+
+#: includes/classes/capabilities-groups-manager.php:132
+msgid "All"
+msgstr "Tất cả"
+
+#: includes/classes/capabilities-groups-manager.php:110
+#: includes/classes/capabilities-groups-manager.php:137
+msgid "Core"
+msgstr "Cốt lõi"
+
+#: includes/classes/capabilities-groups-manager.php:105
+msgid "WooCommerce"
+msgstr "WooCommerce"
+
+#: includes/classes/capabilities-groups-manager.php:47
+msgid "Custom Post Types"
+msgstr "Kiểu bài viết tùy chỉnh"
+
+#: includes/classes/role-view.php:68
+msgid "None"
+msgstr "Không mục nào"
+
+#: includes/settings-template.php:48
+msgid "About"
+msgstr "Về chúng tôi"
+
+#: includes/classes/user-role-editor.php:765
+msgid "Update"
+msgstr "Cập nhật"
+
+#: includes/classes/user-role-editor.php:513
+#: includes/classes/user-role-editor.php:526
+msgid "Settings"
+msgstr "Thiết lập"
+
+#: includes/classes/user-role-editor.php:775
+msgid "Cancel"
+msgstr "Hủy"
+
+#: includes/classes/user-other-roles.php:250
+msgid "Edit"
+msgstr "Sửa"
+
+#: includes/classes/capabilities-groups-manager.php:189
+#: includes/classes/user-role-editor.php:580 includes/settings-template.php:38
+msgid "Multisite"
+msgstr "Nhiều trang"
+
+#: includes/settings-template.php:123 includes/settings-template.php:158
+#: includes/settings-template.php:191 includes/settings-template.php:223
+msgid "Save"
+msgstr "Lưu"
+
+#: includes/classes/editor.php:1627
+msgid "Export"
+msgstr "Xuất"
+
+#: includes/classes/editor.php:1577
+msgid "Import"
+msgstr "Nhập"
+
+#: includes/classes/editor.php:1562
+msgid "Author"
+msgstr "Tác giả"
+
+#: includes/classes/user-role-editor.php:776
+msgid "Add Capability"
+msgstr "Thêm khả năng"
+
+#: includes/classes/user-role-editor.php:777
+#: includes/classes/user-role-editor.php:780
+msgid "Delete Capability"
+msgstr "Xóa khả năng"
+
+#: includes/classes/user-role-editor.php:774
+msgid "Delete Role"
+msgstr "Xóa quyền"
+
+#: includes/classes/user-role-editor.php:767
+msgid "Add New Role"
+msgstr "Thêm quyền"
+
+#: includes/classes/tools.php:41 includes/classes/user-role-editor.php:812
+msgid "Reset"
+msgstr "Đặt lại dữ liệu"
+
+#. Author of the plugin
+#: user-role-editor.php
+msgid "Vladimir Garagulya"
+msgstr "Vladimir Garagulya"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: user-role-editor.php
+msgid "https://www.role-editor.com"
+msgstr "https://www.role-editor.com"
+
+#: includes/classes/screen-help.php:66
+msgid "Other default roles for new registered user"
+msgstr "Các quyền hạn mặc định khác cho người dùng đăng ký mới"
+
+#: includes/classes/user-view.php:197
+msgid "Other Roles:"
+msgstr "Các quyền khác:"
+
+#: includes/classes/user-view.php:188
+msgid "bbPress Role:"
+msgstr "Quyền bbPress:"
+
+#: includes/classes/user-view.php:144
+msgid "Change capabilities for user"
+msgstr "Thay đổi quyền của người dùng"
+
+#: includes/classes/user-view.php:73
+msgid "Network Super Admin"
+msgstr "Network Super Admin"
+
+#: includes/classes/capabilities-groups-manager.php:203
+msgid "Custom capabilities"
+msgstr "Các quyền tự chọn:"
+
+#: includes/classes/view.php:334
+msgid "Quick filter:"
+msgstr "Lọc nhanh:"
+
+#: includes/classes/role-view.php:384 includes/classes/tools.php:32
+msgid "Apply to All Sites"
+msgstr "Áp dụng cho tất cả các trang"
+
+#: includes/classes/role-view.php:371
+msgid "If checked, then apply action to ALL sites of this Network"
+msgstr "Những phần được đánh dấu sẽ áp dụng cho tất cả các trang của Network này"
+
+#: includes/classes/role-view.php:357 includes/classes/user-view.php:161
+msgid "Show capabilities in human readable form"
+msgstr "Hiển thị các quyền trong bảng mà người dùng có thể đọc được"
+
+#: includes/classes/role-view.php:401
+msgid "Select Role and change its capabilities:"
+msgstr "Chọn và thay đổi các quyền:"
+
+#: includes/settings-template.php:210
+msgid "Allow non super administrators to create, edit, and delete users"
+msgstr "Cho phép người dùng không phải là admin tạo, sửa và xóa người dùng khác"
+
+#: includes/settings-template.php:178
+msgid "Other default roles for new registered user: "
+msgstr "Các quyền mặc định cho người dùng mới:"
+
+#: includes/settings-template.php:170
+msgid "Primary default role: "
+msgstr "Các quyền mặc định cơ bản:"
+
+#: includes/classes/user-view.php:182
+msgid "Primary Role:"
+msgstr "Quyền cơ bản:"
+
+#: includes/settings-template.php:18
+msgid "User Role Editor - Options"
+msgstr "Các lựa chọn bố cục quyền người dùng"
+
+#: includes/classes/user-role-editor.php:783
+msgid " Capability name (ID) must contain latin characters, digits, hyphens or underscore only!"
+msgstr "ID chỉ bao gồm các ký tự chữ latin, số, gạch ngang hoặc gạch dưới!"
+
+#: includes/classes/user-role-editor.php:782
+msgid " Capability name (ID) can not be empty!"
+msgstr "ID không thể bỏ trống!"
+
+#: includes/classes/user-role-editor.php:781
+msgid "Warning! Be careful - removing critical capability could crash some plugin or other custom code"
+msgstr "Cảnh báo! Hãy cẩn thận - loại bỏ quyền quan trọng có thể lỗi một số plugin hoặc code tùy chỉnh khác"
+
+#: includes/classes/user-role-editor.php:779
+msgid "Set New Default Role"
+msgstr "Thiết lập mặc định quyền mới"
+
+#: includes/classes/user-role-editor.php:778
+msgid "Default Role"
+msgstr "Quyền mặc định"
+
+#: includes/classes/user-role-editor.php:818
+msgid "Continue?"
+msgstr "Tiếp tục?"
+
+#: includes/classes/user-role-editor.php:816
+msgid "For more information on how to undo undesired changes and restore plugin capabilities go to"
+msgstr "Để biết thêm thông tin về cách hoàn tác thay đổi và khôi phục lại khả năng của plugin, hãy truy cập"
+
+#: includes/classes/user-role-editor.php:772
+msgid "Add Role"
+msgstr "Thêm quyền"
+
+#: includes/classes/user-role-editor.php:771
+msgid " WordPress does not support numeric Role name (ID). Add latin characters to it."
+msgstr "WordPress không hỗ trợ ID dạng số. Vui lòng thêm ký tự latin."
+
+#: includes/classes/user-role-editor.php:770
+msgid " Role name (ID) must contain latin characters, digits, hyphens or underscore only!"
+msgstr "ID chỉ bao gồm các ký tự chữ latin, số, gạch ngang hoặc gạch dưới!"
+
+#: includes/classes/user-role-editor.php:769
+msgid " Role name (ID) can not be empty!"
+msgstr "ID không thể bỏ trống!"
+
+#: includes/classes/user-role-editor.php:768
+#: includes/classes/user-role-editor.php:773
+msgid "Rename Role"
+msgstr "Thay đổi tên của quyền"
+
+#: includes/classes/user-role-editor.php:639
+msgid "You do not have sufficient permissions to manage options for User Role Editor."
+msgstr "Bạn không có đủ quyền để quản lý các tùy chọn cho User Role Editor."
+
+#: includes/classes/settings.php:122
+msgid "Default Roles are updated"
+msgstr "Quyền mặc định đã được cập nhật"
+
+#: includes/classes/settings.php:72 includes/classes/settings.php:92
+#: includes/classes/settings.php:142
+msgid "User Role Editor options are updated"
+msgstr "Các tùy chọn User Role Editor đã được cập nhật"
+
+#: includes/classes/user-role-editor.php:574 includes/settings-template.php:33
+msgid "Default Roles"
+msgstr "Các quyền hạn mặc định"
+
+#: includes/classes/user-role-editor.php:568 includes/settings-template.php:28
+msgid "Additional Modules"
+msgstr "Các tiện ích bổ sung khác"
+
+#: includes/classes/capabilities-groups-manager.php:142
+#: includes/classes/user-role-editor.php:562 includes/settings-template.php:22
+msgid "General"
+msgstr "Chung"
+
+#: includes/classes/user-role-editor.php:377
+#: includes/classes/user-role-editor.php:379
+msgid "You do not have permission to edit this user."
+msgstr "Bạn không có quyền để sửa người dùng này."
+
+#: includes/classes/user-role-editor.php:300
+msgid "Provide new role"
+msgstr "Cấp quyền hạn mới"
+
+#: includes/classes/user-role-editor.php:299
+msgid "No rights"
+msgstr "Không có các quyền"
+
+#: includes/classes/user-role-editor.php:297
+msgid "Change role for users without role"
+msgstr "Thay đổi quyền hạn cho các người dùng chưa có quyền hạn nào"
+
+#: includes/classes/user-other-roles.php:315
+msgid "Additional Capabilities"
+msgstr "Các khả năng bổ sung"
+
+#: includes/classes/user-other-roles.php:243
+#: includes/classes/user-role-editor.php:405
+msgid "Capabilities"
+msgstr "Các khả năng"
+
+#: includes/classes/user-other-roles.php:128
+msgid "Select additional roles for this user"
+msgstr "Chọn các quyền hạn bổ sung cho người dùng này"
+
+#: includes/classes/user-other-roles.php:127
+#: includes/classes/user-other-roles.php:264
+msgid "Other Roles"
+msgstr "Các quyền hạn khác"
+
+#: includes/classes/screen-help.php:47 includes/settings-template.php:143
+msgid "Count users without role"
+msgstr "Đếm người dùng chưa có quyền hạn"
+
+#: includes/classes/screen-help.php:27 includes/settings-template.php:96
+msgid "Edit user capabilities"
+msgstr "Sửa các khả năng của người dùng"
+
+#: includes/classes/role-view.php:367 includes/classes/screen-help.php:21
+#: includes/classes/user-view.php:171 includes/settings-template.php:80
+msgid "Show deprecated capabilities"
+msgstr "Hiển thị các khả năng không sử dụng"
+
+#: includes/classes/screen-help.php:19 includes/settings-template.php:72
+msgid "Show capabilities in the human readable form"
+msgstr "Hiển thị các khả năng trong bảng người dùng có thể đọc được"
+
+#: includes/classes/screen-help.php:16 includes/settings-template.php:63
+msgid "Show Administrator role at User Role Editor"
+msgstr "Hiển thị quyền Administrator trong User Role Editor"
+
+#: includes/classes/screen-help.php:13 includes/classes/screen-help.php:43
+#: includes/classes/screen-help.php:63 includes/classes/screen-help.php:82
+msgid "User Role Editor Options page help"
+msgstr "Trang giúp đỡ các lựa chọn cho User Role Editor"
+
+#. translators: placeholder %s is replaced by denied user capability id string
+#. value
+#: includes/classes/user-other-roles.php:228
+msgid "Denied: %s"
+msgstr "Từ chối: %s"
+
+#: includes/classes/grant-roles.php:429 includes/classes/user-view.php:98
+msgid "&mdash; No role for this site &mdash;"
+msgstr "&mdash; Không có quyền hạn cho trang này &mdash;"
+
+#: includes/classes/role-view.php:100
+msgid "Delete All Unused Roles"
+msgstr "Xóa tất cả các quyền hạn không được sử dụng"
+
+#: includes/classes/lib.php:395
+msgid "FAQ"
+msgstr "Hỏi đáp"
+
+#: includes/classes/lib.php:394 includes/classes/user-role-editor.php:539
+msgid "Changelog"
+msgstr "Lịch sử các thay đổi"
+
+#: includes/classes/lib.php:393
+msgid "Plugin download"
+msgstr "Tải xuống tiện ích"
+
+#: includes/classes/lib.php:392
+msgid "Plugin webpage"
+msgstr "Tiện ích trang web"
+
+#: includes/classes/lib.php:391
+msgid "Author's website"
+msgstr "Trang web tác giả"
+
+#: includes/classes/lib.php:390
+msgid "Version:"
+msgstr "Phiên bản:"
+
+#. translators: placeholder %s is replaced by removed user capability id string
+#. value
+#: includes/classes/capability.php:227
+msgid "Capability %s was removed successfully"
+msgstr "Khả năng %s đã được xóa thành công"
+
+#. translators: placeholder %s is replaced by existed user capability id string
+#. value
+#: includes/classes/capability.php:116
+msgid "Capability %s exists already"
+msgstr "Khả năng %s đã tồn tại"
+
+#. translators: placeholder %s is replaced by added user capability id string
+#. value
+#: includes/classes/capability.php:113
+msgid "Capability %s was added successfully"
+msgstr "Đã thêm khả năng %s thành công"
+
+#: includes/classes/capability.php:35
+msgid "Error: Capability name must contain latin characters and digits only!"
+msgstr "Lỗi: Tên khả năng chỉ có ký tự chữ latin and số!"
+
+#: includes/classes/editor.php:1626
+msgid "Delete themes"
+msgstr "Xóa các chủ đề"
+
+#: includes/classes/editor.php:1625
+msgid "Edit theme options"
+msgstr "Các lựa chọn sửa chủ đề"
+
+#: includes/classes/editor.php:1624
+msgid "Promote users"
+msgstr "Quảng bá người dùng"
+
+#: includes/classes/editor.php:1623
+msgid "Add users"
+msgstr "Thêm người dùng"
+
+#: includes/classes/editor.php:1622
+msgid "Remove users"
+msgstr "Xóa người dùng"
+
+#: includes/classes/editor.php:1621
+msgid "List users"
+msgstr "Danh sách người dùng"
+
+#: includes/classes/editor.php:1620
+msgid "Update core"
+msgstr "Cập nhật lõi"
+
+#: includes/classes/editor.php:1619
+msgid "Install themes"
+msgstr "Cài đặt chủ đề"
+
+#: includes/classes/editor.php:1618
+msgid "Update themes"
+msgstr "Cập nhật chủ đề"
+
+#: includes/classes/editor.php:1617
+msgid "Install plugins"
+msgstr "Cài đặt tiện ích"
+
+#: includes/classes/editor.php:1616
+msgid "Delete plugins"
+msgstr "Xóa tiện ích"
+
+#: includes/classes/editor.php:1615
+msgid "Update plugins"
+msgstr "Cập nhật tiện ích"
+
+#: includes/classes/editor.php:1614
+msgid "Edit dashboard"
+msgstr "Sửa bảng điều khiển"
+
+#: includes/classes/editor.php:1613
+msgid "Unfiltered upload"
+msgstr "Không lọc tải file lên"
+
+#: includes/classes/editor.php:1612
+msgid "Create users"
+msgstr "Tạo người dùng"
+
+#: includes/classes/editor.php:1611
+msgid "Delete users"
+msgstr "Xóa người dùng"
+
+#: includes/classes/editor.php:1610
+msgid "Read private pages"
+msgstr "Xem các trang cá nhân"
+
+#: includes/classes/editor.php:1609
+msgid "Edit private pages"
+msgstr "Sửa các trang cá nhân"
+
+#: includes/classes/editor.php:1608
+msgid "Delete private pages"
+msgstr "Xóa các trang cá nhân"
+
+#: includes/classes/editor.php:1607
+msgid "Read private posts"
+msgstr "Xem các bài viết cá nhân"
+
+#: includes/classes/editor.php:1606
+msgid "Edit private posts"
+msgstr "Sửa các bài viết cá nhân"
+
+#: includes/classes/editor.php:1605
+msgid "Delete private posts"
+msgstr "Xóa các bài viết cá nhân"
+
+#: includes/classes/editor.php:1604
+msgid "Delete published posts"
+msgstr "Xóa các bài viết đã đăng"
+
+#: includes/classes/editor.php:1603
+msgid "Delete others posts"
+msgstr "Xóa các bài viết khác"
+
+#: includes/classes/editor.php:1602
+msgid "Delete posts"
+msgstr "Xóa bài viết"
+
+#: includes/classes/editor.php:1601
+msgid "Delete published pages"
+msgstr "Xóa các trang đã đăng"
+
+#: includes/classes/editor.php:1600
+msgid "Delete others pages"
+msgstr "Xóa các trang khác"
+
+#: includes/classes/editor.php:1599
+msgid "Delete pages"
+msgstr "Xóa trang"
+
+#: includes/classes/editor.php:1598
+msgid "Publish pages"
+msgstr "Đăng trang"
+
+#: includes/classes/editor.php:1597
+msgid "Edit published pages"
+msgstr "Sửa các trang đã đăng"
+
+#: includes/classes/editor.php:1596
+msgid "Edit others pages"
+msgstr "Sửa các trang khác"
+
+#: includes/classes/editor.php:1595
+msgid "Level 0"
+msgstr "Cấp độ 0"
+
+#: includes/classes/editor.php:1594
+msgid "Level 1"
+msgstr "Cấp độ 1"
+
+#: includes/classes/editor.php:1593
+msgid "Level 2"
+msgstr "Cấp độ 2"
+
+#: includes/classes/editor.php:1592
+msgid "Level 3"
+msgstr "Cấp độ 3"
+
+#: includes/classes/editor.php:1591
+msgid "Level 4"
+msgstr "Cấp độ 4"
+
+#: includes/classes/editor.php:1590
+msgid "Level 5"
+msgstr "Cấp độ 5"
+
+#: includes/classes/editor.php:1589
+msgid "Level 6"
+msgstr "Cấp độ 6"
+
+#: includes/classes/editor.php:1588
+msgid "Level 7"
+msgstr "Cấp độ 7"
+
+#: includes/classes/editor.php:1587
+msgid "Level 8"
+msgstr "Cấp độ 8"
+
+#: includes/classes/editor.php:1586
+msgid "Level 9"
+msgstr "Cấp độ 9"
+
+#: includes/classes/editor.php:1585
+msgid "Level 10"
+msgstr "Cấp độ 10"
+
+#: includes/classes/editor.php:1584
+msgid "Read"
+msgstr "Xem"
+
+#: includes/classes/editor.php:1583
+msgid "Edit pages"
+msgstr "Sửa trang"
+
+#: includes/classes/editor.php:1582
+msgid "Publish posts"
+msgstr "Đăng các bài viết"
+
+#: includes/classes/editor.php:1581
+msgid "Edit published posts"
+msgstr "Sửa các bài viết đã đăng"
+
+#: includes/classes/editor.php:1580
+msgid "Edit others posts"
+msgstr "Sửa các bài viết khác"
+
+#: includes/classes/editor.php:1579
+msgid "Edit posts"
+msgstr "Sửa bài viết"
+
+#: includes/classes/editor.php:1578
+msgid "Unfiltered html"
+msgstr "Không lọc html"
+
+#: includes/classes/editor.php:1576
+msgid "Upload files"
+msgstr "Tải file lên"
+
+#: includes/classes/editor.php:1575
+msgid "Manage links"
+msgstr "Quản lý các liên kết"
+
+#: includes/classes/editor.php:1574
+msgid "Manage categories"
+msgstr "Quản lý các chuyên mục"
+
+#: includes/classes/editor.php:1573
+msgid "Moderate comments"
+msgstr "Giám sát các bình luận"
+
+#: includes/classes/editor.php:1572
+msgid "Manage options"
+msgstr "Quản lý các lựa chọn"
+
+#: includes/classes/editor.php:1571
+msgid "Edit files"
+msgstr "Sửa file"
+
+#: includes/classes/editor.php:1570
+msgid "Edit users"
+msgstr "Sửa người dùng"
+
+#: includes/classes/editor.php:1569
+msgid "Edit plugins"
+msgstr "Sửa tiện ích"
+
+#: includes/classes/editor.php:1568
+msgid "Activate plugins"
+msgstr "Kích hoạt tiện ích"
+
+#: includes/classes/editor.php:1567
+msgid "Edit themes"
+msgstr "Sửa chủ đề"
+
+#: includes/classes/editor.php:1566
+msgid "Switch themes"
+msgstr "Đổi chủ đề"
+
+#: includes/classes/editor.php:1564
+msgid "Subscriber"
+msgstr "Subscriber"
+
+#: includes/classes/editor.php:1563
+msgid "Contributor"
+msgstr "Contributor"
+
+#: includes/classes/editor.php:1561
+msgid "Editor"
+msgstr "Biên tập viên"
+
+#: includes/classes/editor.php:1356
+msgid "This role does not exist - "
+msgstr "Quyền hạn này không tồn tại"
+
+#: includes/classes/editor.php:1354
+msgid "Can not set Administrator role as a default one"
+msgstr "Không thể thiết lập quyền hạn Administrator như là quyền hạn mặc định"
+
+#. translators: placeholder %s is replaced by default user role name
+#: includes/classes/editor.php:1349
+msgid "Default role for new users is set to %s successfully"
+msgstr "Quyền hạn mặc định cho người dùng mới được thiết lập %s thành công"
+
+#: includes/classes/editor.php:1351
+msgid "Error encountered during default role change operation"
+msgstr "Lỗi gặp phải trong quá trình thay đổi quyền hạn mặc định"
+
+#. translators: placeholder %s is replaced by not deleted user role id string
+#. value
+#: includes/classes/editor.php:1304
+msgid "Role %s is deleted successfully"
+msgstr "Xóa thành công quyền hạn %s "
+
+#: includes/classes/editor.php:1301
+msgid "Unused roles are deleted successfully"
+msgstr "Xóa thành công các quyền hạn không được sử dụng"
+
+#. translators: placeholder %s is replaced by not existed user role id string
+#. value
+#: includes/classes/editor.php:1155
+msgid "Role %s does not exists"
+msgstr "Quyền hạn %s không tồn tại"
+
+#: includes/classes/editor.php:1147
+msgid "Error: Empty role display name is not allowed."
+msgstr "Lỗi: Không cho phép hiển thị tên quyền hạn bị trống"
+
+#: includes/classes/editor.php:982
+msgid "Error: Role ID is empty!"
+msgstr "Lỗi: ID quyền hạn trống!"
+
+#. translators: placeholder %s is replaced by created user role id string value
+#: includes/classes/editor.php:1062
+msgid "Role %s is created successfully"
+msgstr "Tạo thành công quyền hạn %s"
+
+#: includes/classes/editor.php:1054
+msgid "Error is encountered during new role create operation"
+msgstr "Lỗi gặp phải trong quá trình tạo mới quyền hạn mặc định"
+
+#. translators: placeholder %s is replaced by existed user role id string value
+#: includes/classes/editor.php:1033
+msgid "Role %s exists already"
+msgstr "Quyền hạn %s đã tồn tại"
+
+#: includes/classes/editor.php:992
+msgid "Error: Role ID must contain latin characters, digits, hyphens or underscore only!"
+msgstr "Lỗi: ID quyền hạn phải bao gồm ký tự chữ latin, số, gạch ngang hoặc gạch chân!"
+
+#: includes/classes/capability.php:86 includes/classes/capability.php:208
+#: includes/classes/editor.php:951 includes/classes/editor.php:1019
+#: includes/classes/editor.php:1074 includes/classes/editor.php:1135
+#: includes/classes/editor.php:1283 includes/classes/editor.php:1326
+#: includes/classes/user-role-editor.php:672
+msgid "Insufficient permissions to work with User Role Editor"
+msgstr "Không đủ quyền để thao tác trên User Role Editor"
+
+#: includes/classes/editor.php:1401
+msgid "User Roles are restored to WordPress default values. "
+msgstr "Quyền hạn người dùng đã được khởi tạo theo giá trị mặc định của WordPress."
+
+#: includes/classes/editor.php:910
+msgid "User capabilities are updated successfully"
+msgstr "Khả năng người dùng cập nhật thành công"
+
+#: includes/classes/editor.php:903
+msgid "Roles are updated for all network"
+msgstr "Quyền hạn đã được cập nhật cho tất cả Network"
+
+#: includes/classes/editor.php:901
+msgid "Role is updated successfully"
+msgstr "Cập nhật quyền hạn thành công"
+
+#: includes/classes/editor.php:236
+msgid "does not exist"
+msgstr "không tồn tại"
+
+#: includes/classes/editor.php:235
+msgid "Role"
+msgstr "Quyền hạn"
+
+#: includes/classes/editor.php:233 includes/classes/editor.php:235
+msgid "Error: "
+msgstr "Lỗi:"
+
+#. Plugin Name of the plugin
+#: user-role-editor.php includes/classes/capabilities-groups-manager.php:86
+#: includes/classes/editor.php:1491 includes/classes/user-role-editor.php:593
+#: includes/classes/user-role-editor.php:594
+#: includes/classes/user-role-editor.php:606
+#: includes/classes/user-role-editor.php:607
+#: includes/classes/user-role-editor.php:622
+#: includes/classes/user-role-editor.php:623
+msgid "User Role Editor"
+msgstr "User Role Editor"
+
+#: includes/classes/role-view.php:245
+msgid "Capability name (ID): "
+msgstr "Tên khả năng (ID):"
+
+#: includes/classes/role-view.php:220
+msgid "Select Role:"
+msgstr "Chọn quyền hạn:"
+
+#: includes/classes/role-view.php:204
+msgid "Make copy of: "
+msgstr "Tạo bản sao của:"
+
+#: includes/classes/role-view.php:202 includes/classes/role-view.php:213
+msgid "Display Role Name: "
+msgstr "Hiển thị tên quyền hạn:"
+
+#: includes/classes/role-view.php:200 includes/classes/role-view.php:211
+msgid "Role name (ID): "
+msgstr "Tên quyền hạn (ID):"
+
+#: includes/classes/editor.php:1532
+msgid "Error: wrong request"
+msgstr "Lỗi: Sai yêu cầu"
+
+#: includes/classes/screen-help.php:85
+msgid "Allow non super-administrators to create, edit and delete users"
+msgstr "Cho phép những người không phải siêu quản trị viên tạo, sửa và xoá người dùng."
+
+#. translators: 1st placeholder %s is replaced by original user role name, 2nd
+#. placehoder is replaced by new user role name
+#: includes/classes/editor.php:1169
+msgid "Role %1$s is renamed to %2$s successfully"
+msgstr "Vai trò %1$s đã được đổi tên thành %2$s thành công"
+
+#: includes/classes/editor.php:912
+msgid "Error occurred during user update"
+msgstr "Lỗi xảy ra trong quá trình cập nhật người dùng"
+
+#: includes/classes/editor.php:906
+msgid "Error occurred during role(s) update"
+msgstr "Lỗi xảy ra trong quá trình cập nhật vai trò"
+
+#: includes/settings-template.php:184
+msgid "Note for multisite environment: take into account that other default roles should exist at the site, in order to be assigned to the new registered users."
+msgstr "Lưu ý cho môi trường đa site: cần tính đến việc các vai trò mặc định khác nên tồn tại trên site, để có thể gán cho các người dùng mới đăng ký."
+
+#: includes/classes/user-role-editor.php:766
+msgid "Please confirm permissions update"
+msgstr "Vui lòng xác nhận cập nhật quyền hạn"
+
+#. Description of the plugin
+#: user-role-editor.php
+msgid "Change/add/delete WordPress user roles and capabilities."
+msgstr "Thêm/sửa/xóa các quyền của người dùng WordPress"
+
+#: includes/classes/editor.php:998
+msgid "Error: WordPress does not support numeric Role name (ID). Add latin characters to it."
+msgstr "Lỗi: WordPress không hỗ trợ tên quyền hạn là số. Vui lòng thêm ký tự chữ."

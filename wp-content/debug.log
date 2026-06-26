@@ -1,0 +1,80 @@
+[25-Jun-2026 05:39:50 UTC] TABLEPRESS SAVE HOOK RUNNING
+[25-Jun-2026 07:35:11 UTC] PHP Notice:  Function map_meta_cap được gọi <strong>không chính xác</strong>. Loại bài viết <code>process_steps</code> không được đăng ký, vì vậy có thể không đáng tin cậy để kiểm tra khả năng <code>read_post</code> đối với một bài viết của loại đó. Vui lòng xem <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Hướng dẫn Debug trong WordPress</a> để biết thêm thông tin. (Thông điệp này đã được thêm vào trong phiên bản 4.4.0.) in C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\functions.php on line 6170
+[25-Jun-2026 07:35:11 UTC] PHP Notice:  Function map_meta_cap được gọi <strong>không chính xác</strong>. Loại bài viết <code>process_steps</code> không được đăng ký, vì vậy có thể không đáng tin cậy để kiểm tra khả năng <code>read_post</code> đối với một bài viết của loại đó. Vui lòng xem <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Hướng dẫn Debug trong WordPress</a> để biết thêm thông tin. (Thông điệp này đã được thêm vào trong phiên bản 4.4.0.) in C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\functions.php on line 6170
+[25-Jun-2026 07:35:11 UTC] PHP Notice:  Function map_meta_cap được gọi <strong>không chính xác</strong>. Loại bài viết <code>process_steps</code> không được đăng ký, vì vậy có thể không đáng tin cậy để kiểm tra khả năng <code>read_post</code> đối với một bài viết của loại đó. Vui lòng xem <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Hướng dẫn Debug trong WordPress</a> để biết thêm thông tin. (Thông điệp này đã được thêm vào trong phiên bản 4.4.0.) in C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\functions.php on line 6170
+[25-Jun-2026 07:35:50 UTC] PHP Notice:  Function map_meta_cap được gọi <strong>không chính xác</strong>. Loại bài viết <code>process_steps</code> không được đăng ký, vì vậy có thể không đáng tin cậy để kiểm tra khả năng <code>read_post</code> đối với một bài viết của loại đó. Vui lòng xem <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Hướng dẫn Debug trong WordPress</a> để biết thêm thông tin. (Thông điệp này đã được thêm vào trong phiên bản 4.4.0.) in C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\functions.php on line 6170
+[25-Jun-2026 07:35:50 UTC] PHP Notice:  Function map_meta_cap được gọi <strong>không chính xác</strong>. Loại bài viết <code>process_steps</code> không được đăng ký, vì vậy có thể không đáng tin cậy để kiểm tra khả năng <code>read_post</code> đối với một bài viết của loại đó. Vui lòng xem <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Hướng dẫn Debug trong WordPress</a> để biết thêm thông tin. (Thông điệp này đã được thêm vào trong phiên bản 4.4.0.) in C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\functions.php on line 6170
+[25-Jun-2026 07:35:50 UTC] PHP Notice:  Function map_meta_cap được gọi <strong>không chính xác</strong>. Loại bài viết <code>process_steps</code> không được đăng ký, vì vậy có thể không đáng tin cậy để kiểm tra khả năng <code>read_post</code> đối với một bài viết của loại đó. Vui lòng xem <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Hướng dẫn Debug trong WordPress</a> để biết thêm thông tin. (Thông điệp này đã được thêm vào trong phiên bản 4.4.0.) in C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\functions.php on line 6170
+[25-Jun-2026 09:37:43 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "current_slug" in C:\Users\VNN\Local Sites\escvn\app\public\wp-content\themes\vibe-code-theme\inc\page\index.php:20
+Stack trace:
+#0 C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\class-wp-hook.php(341): redirect_api_domain_to_frontend('')
+#1 C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\class-wp-hook.php(365): WP_Hook->apply_filters(NULL, Array)
+#2 C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\plugin.php(522): WP_Hook->do_action(Array)
+#3 C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\template-loader.php(23): do_action('template_redire...')
+#4 C:\Users\VNN\Local Sites\escvn\app\public\wp-blog-header.php(19): require_once('C:\\Users\\VNN\\Lo...')
+#5 C:\Users\VNN\Local Sites\escvn\app\public\index.php(17): require('C:\\Users\\VNN\\Lo...')
+#6 {main}
+  thrown in C:\Users\VNN\Local Sites\escvn\app\public\wp-content\themes\vibe-code-theme\inc\page\index.php on line 20
+[25-Jun-2026 09:37:47 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "current_slug" in C:\Users\VNN\Local Sites\escvn\app\public\wp-content\themes\vibe-code-theme\inc\page\index.php:20
+Stack trace:
+#0 C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\class-wp-hook.php(341): redirect_api_domain_to_frontend('')
+#1 C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\class-wp-hook.php(365): WP_Hook->apply_filters(NULL, Array)
+#2 C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\plugin.php(522): WP_Hook->do_action(Array)
+#3 C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\template-loader.php(23): do_action('template_redire...')
+#4 C:\Users\VNN\Local Sites\escvn\app\public\wp-blog-header.php(19): require_once('C:\\Users\\VNN\\Lo...')
+#5 C:\Users\VNN\Local Sites\escvn\app\public\index.php(17): require('C:\\Users\\VNN\\Lo...')
+#6 {main}
+  thrown in C:\Users\VNN\Local Sites\escvn\app\public\wp-content\themes\vibe-code-theme\inc\page\index.php on line 20
+[25-Jun-2026 09:37:48 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "current_slug" in C:\Users\VNN\Local Sites\escvn\app\public\wp-content\themes\vibe-code-theme\inc\page\index.php:20
+Stack trace:
+#0 C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\class-wp-hook.php(341): redirect_api_domain_to_frontend('')
+#1 C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\class-wp-hook.php(365): WP_Hook->apply_filters(NULL, Array)
+#2 C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\plugin.php(522): WP_Hook->do_action(Array)
+#3 C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\template-loader.php(23): do_action('template_redire...')
+#4 C:\Users\VNN\Local Sites\escvn\app\public\wp-blog-header.php(19): require_once('C:\\Users\\VNN\\Lo...')
+#5 C:\Users\VNN\Local Sites\escvn\app\public\index.php(17): require('C:\\Users\\VNN\\Lo...')
+#6 {main}
+  thrown in C:\Users\VNN\Local Sites\escvn\app\public\wp-content\themes\vibe-code-theme\inc\page\index.php on line 20
+[25-Jun-2026 09:38:11 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "current_slug" in C:\Users\VNN\Local Sites\escvn\app\public\wp-content\themes\vibe-code-theme\inc\page\index.php:20
+Stack trace:
+#0 C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\class-wp-hook.php(341): redirect_api_domain_to_frontend('')
+#1 C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\class-wp-hook.php(365): WP_Hook->apply_filters(NULL, Array)
+#2 C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\plugin.php(522): WP_Hook->do_action(Array)
+#3 C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\template-loader.php(23): do_action('template_redire...')
+#4 C:\Users\VNN\Local Sites\escvn\app\public\wp-blog-header.php(19): require_once('C:\\Users\\VNN\\Lo...')
+#5 C:\Users\VNN\Local Sites\escvn\app\public\index.php(17): require('C:\\Users\\VNN\\Lo...')
+#6 {main}
+  thrown in C:\Users\VNN\Local Sites\escvn\app\public\wp-content\themes\vibe-code-theme\inc\page\index.php on line 20
+[25-Jun-2026 09:38:14 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "current_slug" in C:\Users\VNN\Local Sites\escvn\app\public\wp-content\themes\vibe-code-theme\inc\page\index.php:20
+Stack trace:
+#0 C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\class-wp-hook.php(341): redirect_api_domain_to_frontend('')
+#1 C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\class-wp-hook.php(365): WP_Hook->apply_filters(NULL, Array)
+#2 C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\plugin.php(522): WP_Hook->do_action(Array)
+#3 C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\template-loader.php(23): do_action('template_redire...')
+#4 C:\Users\VNN\Local Sites\escvn\app\public\wp-blog-header.php(19): require_once('C:\\Users\\VNN\\Lo...')
+#5 C:\Users\VNN\Local Sites\escvn\app\public\index.php(17): require('C:\\Users\\VNN\\Lo...')
+#6 {main}
+  thrown in C:\Users\VNN\Local Sites\escvn\app\public\wp-content\themes\vibe-code-theme\inc\page\index.php on line 20
+[25-Jun-2026 09:38:14 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "current_slug" in C:\Users\VNN\Local Sites\escvn\app\public\wp-content\themes\vibe-code-theme\inc\page\index.php:20
+Stack trace:
+#0 C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\class-wp-hook.php(341): redirect_api_domain_to_frontend('')
+#1 C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\class-wp-hook.php(365): WP_Hook->apply_filters(NULL, Array)
+#2 C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\plugin.php(522): WP_Hook->do_action(Array)
+#3 C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\template-loader.php(23): do_action('template_redire...')
+#4 C:\Users\VNN\Local Sites\escvn\app\public\wp-blog-header.php(19): require_once('C:\\Users\\VNN\\Lo...')
+#5 C:\Users\VNN\Local Sites\escvn\app\public\index.php(17): require('C:\\Users\\VNN\\Lo...')
+#6 {main}
+  thrown in C:\Users\VNN\Local Sites\escvn\app\public\wp-content\themes\vibe-code-theme\inc\page\index.php on line 20
+[25-Jun-2026 13:42:11 UTC] PHP Notice:  Function map_meta_cap được gọi <strong>không chính xác</strong>. Loại bài viết <code>process_steps</code> không được đăng ký, vì vậy có thể không đáng tin cậy để kiểm tra khả năng <code>read_post</code> đối với một bài viết của loại đó. Vui lòng xem <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Hướng dẫn Debug trong WordPress</a> để biết thêm thông tin. (Thông điệp này đã được thêm vào trong phiên bản 4.4.0.) in C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\functions.php on line 6170
+[25-Jun-2026 13:42:11 UTC] PHP Notice:  Function map_meta_cap được gọi <strong>không chính xác</strong>. Loại bài viết <code>process_steps</code> không được đăng ký, vì vậy có thể không đáng tin cậy để kiểm tra khả năng <code>read_post</code> đối với một bài viết của loại đó. Vui lòng xem <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Hướng dẫn Debug trong WordPress</a> để biết thêm thông tin. (Thông điệp này đã được thêm vào trong phiên bản 4.4.0.) in C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\functions.php on line 6170
+[25-Jun-2026 13:42:11 UTC] PHP Notice:  Function map_meta_cap được gọi <strong>không chính xác</strong>. Loại bài viết <code>process_steps</code> không được đăng ký, vì vậy có thể không đáng tin cậy để kiểm tra khả năng <code>read_post</code> đối với một bài viết của loại đó. Vui lòng xem <a href="https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/">Hướng dẫn Debug trong WordPress</a> để biết thêm thông tin. (Thông điệp này đã được thêm vào trong phiên bản 4.4.0.) in C:\Users\VNN\Local Sites\escvn\app\public\wp-includes\functions.php on line 6170
+[25-Jun-2026 13:50:35 UTC] Automatic updates starting...
+[25-Jun-2026 13:50:37 UTC]   Automatic theme updates starting...
+[25-Jun-2026 13:50:37 UTC]   Automatic theme updates complete.
+[25-Jun-2026 13:50:37 UTC] Automatic updates complete.
+[26-Jun-2026 04:25:12 UTC] Automatic updates starting...
+[26-Jun-2026 04:25:15 UTC]   Automatic plugin updates starting...
+[26-Jun-2026 04:25:15 UTC]   Automatic plugin updates complete.
+[26-Jun-2026 04:25:16 UTC]   Automatic theme updates starting...
+[26-Jun-2026 04:25:17 UTC]   Automatic theme updates complete.
+[26-Jun-2026 04:25:17 UTC] Automatic updates complete.
