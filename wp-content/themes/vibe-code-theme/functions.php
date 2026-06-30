@@ -1,4 +1,113 @@
 <?php
+//Buttom TablePress
+function custom_add_tablepress_button() {
+    // Chỉ hiển thị nút này nếu plugin TablePress đang hoạt động
+    if ( ! class_exists( 'TablePress' ) ) {
+        return;
+    }
+
+    // Đường dẫn icon (bạn có thể thay dashicons bằng icon phù hợp)
+    echo '<a href="#TB_inline?width=600&height=550&inlineId=tablepress-popup-container" class="button thickbox" id="add-tablepress-button" title="Chọn TablePress để chèn">';
+    echo '<span class="wp-media-buttons-icon dashicons dashicons-editor-table" style="margin-top: 3px;"></span> Thêm TablePress';
+    echo '</a>';
+}
+add_action( 'media_buttons', 'custom_add_tablepress_button' );
+
+function custom_tablepress_popup_html() {
+    if ( ! class_exists( 'TablePress' ) ) {
+        return;
+    }
+
+    // Lấy danh sách các bảng từ TablePress
+    $table_ids = TablePress::$model_table->load_all();
+    ?>
+    <div id="tablepress-popup-container" style="display:none;">
+        <div style="padding:15px 20px;">
+            <h3 style="margin-top:0;">Danh sách TablePress hiện có</h3>
+            <p>Chọn một bảng dưới đây để chèn vào nội dung:</p>
+            
+            <div style="max-height: 380px; overflow-y: auto; border: 1px solid #dfdfdf; padding: 5px; background: #fff;">
+                <table class="wp-list-table widefat fixed striped" style="margin:0; border:none; width:100%;">
+                    <thead>
+                        <tr>
+                            <th style="width: 100px; font-weight: bold;">ID</th>
+                            <th style="font-weight: bold;">Tên Bảng</th>
+                            <th style="width: 110px; font-weight: bold; text-align: center;">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                        if ( ! empty( $table_ids ) ) {
+                            foreach ( $table_ids as $table_id ) {
+                                $table = TablePress::$model_table->load( $table_id, false, false );
+                                $table_name = esc_html( $table['name'] );
+                                
+                                // Lấy hình ảnh của TablePress từ meta dữ liệu
+                                $meta = get_option( 'tablepress_meta_' . $table_id, [] );
+                                $image_url = isset( $meta['image'] ) ? esc_url( $meta['image'] ) : '';
+                                ?>
+                                <tr>
+                                    <td><strong><?php echo esc_html( $table_id ); ?></strong></td>
+                                    <td><?php echo $table_name ? $table_name : '<em>(Không có tên)</em>'; ?></td>
+                                    <td style="text-align: center;">
+                                        <button type="button" 
+                                                class="button button-primary insert-tablepress-shortcode" 
+                                                data-id="<?php echo esc_attr( $table_id ); ?>" 
+                                                data-image="<?php echo esc_attr( $image_url ); ?>" 
+                                                style="white-space: nowrap;">
+                                            Chọn bảng
+                                        </button>
+                                    </td>
+                                </tr>
+                                <?php
+                            }
+                        } else {
+                            echo '<tr><td colspan="3">Chưa có bảng nào được tạo trong TablePress.</td></tr>';
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $(document).on('click', '.insert-tablepress-shortcode', function() {
+                var tableId = $(this).data('id');
+                var imageUrl = $(this).data('image');
+                
+                // Mã shortcode TablePress (thêm \n để xuống dòng rõ ràng)
+                var contentToInsert = '[table id=' + tableId + ' /]\n';
+                
+                // Nếu tồn tại ảnh của TablePress, chèn thẻ img thu nhỏ ngay bên dưới
+                if ( imageUrl && imageUrl.trim() !== '' ) {
+                    // Bạn có thể thay đổi width: 150px thành kích thước bạn muốn (ví dụ: 100px, 200px)
+                    contentToInsert += '<img src="' + imageUrl + '" alt="Hình ảnh cho table ' + tableId + '" class="tablepress-attached-image" style="width:150px; max-width:100%; height:auto; display:block; margin-top:10px;" />\n';
+                }
+
+                // Thực hiện chèn nội dung vào Trình soạn thảo (Hỗ trợ cả ACF WYSIWYG)
+                if (typeof wp !== 'undefined' && wp.media && wp.media.editor) {
+                    wp.media.editor.insert(contentToInsert);
+                } else if (typeof tinymce !== 'undefined' && tinymce.activeEditor && !tinymce.activeEditor.isHidden()) {
+                    tinymce.activeEditor.execCommand('mceInsertContent', false, contentToInsert);
+                } else {
+                    var wpEditor = $('.wp-editor-area');
+                    if(wpEditor.length) {
+                        wpEditor.val(wpEditor.val() + contentToInsert);
+                    }
+                }
+                
+                // Đóng popup Thickbox
+                tb_remove();
+            });
+        });
+    </script>
+    <?php
+}
+add_action( 'admin_footer', 'custom_tablepress_popup_html' );
+//end - Buttom TablePress
+//
 function vibe_code_enqueue_assets() {
     // Nạp toàn bộ file CSS và JS từ thư mục dist của Astro
     // Lưu ý: Sau này ông copy thư mục 'assets' từ dist vào theme này
@@ -281,7 +390,7 @@ function custom_sync_acf_currency_by_pure_name() {
         <?php
     }
 }
-
+ 
 // Xóa ký hiệu tiền tệ (₫) hoặc ($) ở các nhãn ô nhập trong trang sửa sản phẩm
 add_action( 'admin_footer', 'custom_remove_currency_symbol_from_inputs_label' );
 
