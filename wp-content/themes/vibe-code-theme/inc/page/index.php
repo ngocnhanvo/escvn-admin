@@ -4,7 +4,19 @@ add_action( 'template_redirect', 'redirect_api_domain_to_frontend' );
 function redirect_api_domain_to_frontend() {
     // Kiểm tra nếu đang truy cập ngoài Front-end (không phải trang Admin backend)
     if ( ! is_admin() ) {
-        
+        // 1. BỔ SUNG: Kiểm tra xem file đang chạy có phải là file .php hay không
+        $script_name = $_SERVER['SCRIPT_NAME'] ?? '';
+        if ( substr( $script_name, -4 ) === '.php' ) {
+            // Lấy tên file cụ thể (ví dụ: index.php)
+            $current_file = basename( $script_name );
+            
+            // Nếu là index.php thì vẫn cho chạy tiếp để xử lý request, 
+            // nhưng nếu là các file .php khác (như wp-login.php, xmlrpc.php...) thì KHÔNG redirect.
+            if ( $current_file !== 'index.php' ) {
+                return;
+            }
+        }
+		
         // Lấy domain hiện tại đang chạy
         $current_host = $_SERVER['HTTP_HOST'] ?? '';
         

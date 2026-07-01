@@ -376,11 +376,54 @@ add_action('wp_ajax_tablepress_save_table', function() {
 add_action( 'rest_api_init', 'register_tablepress_json_api_endpoint' );
 
 function register_tablepress_json_api_endpoint() {
+	// 1. API lấy chi tiết dữ liệu của 1 Table cụ thể qua ID
     register_rest_route( 'tablepress/v1', '/table/(?P<id>[a-zA-Z0-9_\-]+)', array(
         'methods'             => 'GET',
         'callback'            => 'get_tablepress_table_json',
         'permission_callback' => '__return_true', // Để '__return_true' nếu muốn ai cũng gọi được, hoặc cấu hình phân quyền nếu cần
-    ) );
+    ));
+	// 2. API lấy danh sách các Table có tên (hoặc ID) bắt đầu bằng một prefix
+	register_rest_route('tablepress/v1', '/tables/prefix/(?P<prefix>[a-zA-Z0-9_-]+)', array(
+        'methods' => 'GET',
+        'callback' => function ($data) {
+            global $wpdb;
+			$prefix = strtolower($data['prefix']);
+
+			// 1. Chọc thẳng vào DB lấy chuỗi JSON cấu hình
+			$raw_data = $wpdb->get_var("
+				SELECT option_value 
+				FROM {$wpdb->options} 
+				WHERE option_name = 'tablepress_tables'
+			");
+			
+			if (!$raw_data) {
+				return rest_ensure_response(array());
+			}
+
+			// 2. Giải mã chuỗi JSON thành mảng PHP (truyền true để ra dạng mảng assoc)
+			$parsed_data = json_decode($raw_data, true);
+			
+			// Kiểm tra xem cấu trúc "table_post" có tồn tại không
+			if (!isset($parsed_data['table_post']) || !is_array($parsed_data['table_post'])) {
+				return rest_ensure_response(array());
+			}
+
+			$all_tables = $parsed_data['table_post']; // Đây là mảng: ["home_01" => 664, ...]
+			$filtered_ids = array();
+
+			// 3. Lọc các ID khớp với prefix của bạn
+			foreach ($all_tables as $display_id => $post_id) {
+				if (strpos(strtolower($display_id), $prefix) === 0) {
+					$filtered_ids[] = array(
+						'id'      => $display_id, // Ví dụ: "home_01"
+						'post_id' => (int) $post_id // Ví dụ: 664
+					);
+				}
+			}
+
+			return rest_ensure_response($filtered_ids);
+        },
+    ));
 }
 
 function get_tablepress_table_json( $data ) {
