@@ -252,6 +252,7 @@ function register_tablepress_json_api_endpoint() {
 	// 2. API lấy danh sách các Table có tên (hoặc ID) bắt đầu bằng một prefix
 	register_rest_route('tablepress/v1', '/tables/prefix/(?P<prefix>[a-zA-Z0-9_-]+)', array(
         'methods' => 'GET',
+		'permission_callback' => '__return_true',
         'callback' => function ($data) {
             global $wpdb;
 			$prefix = strtolower($data['prefix']);
