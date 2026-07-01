@@ -27,7 +27,7 @@ register_rest_field('product', 'tax_data', [
 ]);
 
 // --- 2. ĐĂNG KÝ TRƯỜNG PRICE_REGISTER ---
-register_rest_field('product', 'price_register', [
+register_rest_field('product', 'prices', [
     'get_callback' => function($post_array) {
         $product = wc_get_product($post_array['id']);
         if (!$product) return null;
@@ -65,8 +65,10 @@ register_rest_field('product', 'price_register', [
         
         // Lấy giá bán hiện tại của sản phẩm
         $current_price = floatval($product->get_price()); 
+		$price_register  = $current_price;
+		$price_renew = $current_price; 
         $discount_amount = 0;
-
+		$usage_limit = 1;
         // 5. Duyệt qua danh sách ID để tính toán giảm giá
 		foreach ($coupon_ids as $coupon_id) {
 			
@@ -94,22 +96,37 @@ register_rest_field('product', 'price_register', [
 			if ( $expiry_date && $current_time > $expiry_date->getTimestamp() ) {
 				continue;
 			}
+			
+			// --- ĐÃ SỬA: Lấy đúng giá trị của ô "Giới hạn sử dụng đến X sản phẩm" ---
+            // Hàm này trả về số nguyên X, hoặc null/0 nếu để trống "Áp dụng cho tất cả..."
+            $limit_to_x_items = $coupon->get_limit_usage_to_x_items(); 
 
-			// Nếu thỏa mãn (còn hạn hoặc không giới hạn ngày), tiến hành tính toán luôn
-			$discount_type = $coupon->get_discount_type();
-			$coupon_amount = floatval($coupon->get_amount());
+            // Tính số tiền giảm giá của riêng coupon này
+            $discount_amount = 0;
+            $discount_type   = $coupon->get_discount_type();
+            $coupon_amount   = floatval($coupon->get_amount());
 
-			if ($discount_type === 'fixed_product') {
-				$discount_amount += $coupon_amount;
-			} elseif ($discount_type === 'percent') {
-				$discount_amount += ($current_price * ($coupon_amount / 100));
-			}
+            if ($discount_type === 'fixed_product') {
+                $discount_amount = $coupon_amount;
+            } elseif ($discount_type === 'percent') {
+                $discount_amount = ($current_price * ($coupon_amount / 100));
+            }
+            
+            // --- LOGIC THEO Ô KHOANH TRÒN XANH ---
+            if ( $limit_to_x_items > 0 ) {
+                // Nếu có điền số X: Chỉ trừ vào giá Đăng ký, giá Gia hạn GIỮ NGUYÊN giá gốc
+                $price_register = max(0, $price_register - $discount_amount);
+            } else {
+                // Nếu BỎ TRỐNG (Áp dụng cho tất cả sản phẩm đủ điều kiện): Trừ giảm giá cho CẢ HAI
+                $price_register = max(0, $price_register - $discount_amount);
+                $price_renew    = max(0, $price_renew - $discount_amount);
+            }
 		}
         
-        // Giá đăng ký cuối cùng
-        $price_register = max(0, $current_price - $discount_amount);
-        
-        return $price_register;
+        return [
+            'price_register' => $price_register,
+            'price_renew'    => $price_renew
+        ];
     },
     'schema' => null,
 ]);
