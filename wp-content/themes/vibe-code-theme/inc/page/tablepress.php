@@ -230,7 +230,7 @@ function tablepress_acf_quick_edit() {
 
                 hideMenu();
 
-                if (!confirm('Xóa ID bảng "' + tableIdToDelete + '" và hình ảnh đi kèm (nếu có) khỏi nội dung đang soạn?\n\nThao tác này chỉ ảnh hưởng tới nội dung đang soạn ở đây, KHÔNG thay đổi dữ liệu của bảng TablePress, KHÔNG xóa link ảnh hay bất kỳ file nào trong Media Library.')) {
+                if (!confirm('Xóa ID bảng "' + tableIdToDelete + '" và hình ảnh đi kèm (nếu có) khỏi nội dung đang soạn?')) {
                     return;
                 }
 
