@@ -32,9 +32,169 @@ function tablepress_acf_quick_edit() {
                 return null;
             }
 
+            // Escape ký tự đặc biệt để dùng an toàn trong RegExp
+            function escapeRegExp(str) {
+                return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            }
+
+            // Tìm vị trí (start/end) của TRỌN VẸN đoạn "[table id=xxx /]" gần với vùng đã bôi đen nhất,
+            // để dù người dùng chỉ bôi đen mỗi "xxx" thì vẫn xóa đúng cả dòng shortcode, không để sót "[table id=/]"
+            function findFullShortcodeRange(val, tableId, approxStart, approxEnd) {
+                var regex = new RegExp('\\[table\\s+id=["\']?' + escapeRegExp(tableId) + '["\']?\\s*\\/\\]', 'gi');
+                var match, best = null, bestDist = Infinity;
+
+                while ((match = regex.exec(val)) !== null) {
+                    var mStart = match.index;
+                    var mEnd = match.index + match[0].length;
+                    var dist;
+
+                    if (approxEnd >= mStart && approxStart <= mEnd) {
+                        dist = 0; // vùng đã chọn nằm trong (hoặc chồng lấn) đoạn shortcode này
+                    } else if (approxStart > mEnd) {
+                        dist = approxStart - mEnd;
+                    } else {
+                        dist = mStart - approxEnd;
+                    }
+
+                    if (dist < bestDist) {
+                        bestDist = dist;
+                        best = { start: mStart, end: mEnd };
+                    }
+                }
+
+                return best;
+            }
+
+            // (Chế độ Văn bản) Xóa TRỌN VẸN đoạn [table id=...] đang được chọn, cùng ảnh đi kèm NGAY SAU đoạn đó.
+            // Quan trọng: khi cùng 1 bảng được chèn nhiều lần, id="tablepress-img-xxx" sẽ bị TRÙNG NHAU giữa các ảnh,
+            // nên không thể chỉ dựa vào id để xóa (sẽ xóa nhầm/xóa hết mọi ảnh trùng id). Thay vào đó, ta xác định
+            // đúng VỊ TRÍ của shortcode đang xóa, rồi chỉ xóa ảnh xuất hiện ngay sau vị trí đó (và không có shortcode nào khác chen giữa).
+            function removeTableAndImageFromTextarea(val, tableId, selStart, selEnd) {
+                var shortcodeRange = findFullShortcodeRange(val, tableId, selStart, selEnd);
+                var rangesToRemove = [];
+                var shortcodeEnd;
+
+                if (shortcodeRange) {
+                    rangesToRemove.push(shortcodeRange);
+                    shortcodeEnd = shortcodeRange.end;
+                } else {
+                    rangesToRemove.push({ start: selStart, end: selEnd });
+                    shortcodeEnd = selEnd;
+                }
+
+                // Tìm ảnh đi kèm: chỉ chấp nhận nếu nó xuất hiện NGAY SAU shortcode này (trước khi gặp 1 shortcode [table id=...] khác)
+                var imgRegex = new RegExp('<img[^>]*\\bid=["\']tablepress-img-' + escapeRegExp(tableId) + '["\'][^>]*>\\s*', 'i');
+                var searchText = val.slice(shortcodeEnd);
+                var imgMatch = imgRegex.exec(searchText);
+
+                if (imgMatch) {
+                    var beforeImg = searchText.slice(0, imgMatch.index);
+                    if (!/\[table\s+id=/i.test(beforeImg)) {
+                        var imgStart = shortcodeEnd + imgMatch.index;
+                        var imgEnd = imgStart + imgMatch[0].length;
+                        rangesToRemove.push({ start: imgStart, end: imgEnd });
+                    }
+                }
+
+                // Xóa từ cuối văn bản về đầu để tránh lệch offset giữa các đoạn xóa
+                rangesToRemove.sort(function(a, b) { return b.start - a.start; });
+                var newVal = val;
+                rangesToRemove.forEach(function(r) {
+                    newVal = newVal.substring(0, r.start) + newVal.substring(r.end);
+                });
+
+                return newVal;
+            }
+
+            // Tìm text node trong TinyMCE chứa TRỌN VẸN đoạn "[table id=xxx /]" gần vị trí đang chọn/click chuột phải
+            function locateShortcodeTextNode(editorRef, tableId) {
+                var regex = new RegExp('\\[table\\s+id=["\']?' + escapeRegExp(tableId) + '["\']?\\s*\\/\\]', 'i');
+                var rng = editorRef.selection.getRng();
+                var container = rng.startContainer;
+
+                if (container.nodeType === 3 && regex.test(container.data)) {
+                    return { textNode: container, match: regex.exec(container.data) };
+                }
+
+                var block = editorRef.dom.getParent(container, editorRef.dom.isBlock) || editorRef.getBody();
+                var walker = editorRef.dom.doc.createTreeWalker(block, NodeFilter.SHOW_TEXT, null, false);
+                var node;
+                while ((node = walker.nextNode())) {
+                    if (regex.test(node.data)) {
+                        return { textNode: node, match: regex.exec(node.data) };
+                    }
+                }
+                return null;
+            }
+
+            // Duyệt DOM theo đúng thứ tự tài liệu, bắt đầu từ startNode, để tìm ảnh có id trùng khớp XUẤT HIỆN SAU nó đầu tiên.
+            // Cách này tránh xóa nhầm ảnh khi có nhiều bảng giống nhau (cùng id) trong cùng nội dung.
+            function findFollowingImageById(editorRef, startNode, tableId) {
+                if (!startNode) return null;
+                var targetId = 'tablepress-img-' + tableId;
+                var walker = editorRef.dom.doc.createTreeWalker(editorRef.getBody(), NodeFilter.SHOW_ELEMENT, null, false);
+                var passedStart = false;
+                var node;
+
+                while ((node = walker.nextNode())) {
+                    if (!passedStart) {
+                        if (node === startNode) {
+                            passedStart = true;
+                        }
+                        continue;
+                    }
+                    if (node.nodeName === 'IMG' && node.id === targetId) {
+                        return node;
+                    }
+                }
+                return null;
+            }
+
+            // (Chế độ Trực quan) Xóa TRỌN VẸN đoạn [table id=...] đang được chọn, cùng ảnh đi kèm đúng vị trí (không xóa nhầm ảnh trùng id)
+            function removeTableAndImageFromEditor(editorRef, tableId) {
+                var found = locateShortcodeTextNode(editorRef, tableId);
+                var startBlock = found ? (editorRef.dom.getParent(found.textNode, editorRef.dom.isBlock) || found.textNode) : null;
+
+                // 1. Xác định ảnh đi kèm ĐÚNG của lần xuất hiện này TRƯỚC KHI xóa chữ (để còn định vị được trong DOM)
+                var imgNode = findFollowingImageById(editorRef, startBlock, tableId);
+
+                // 2. Xóa dòng [table id=...]
+                if (found) {
+                    var newRng = editorRef.dom.createRng();
+                    newRng.setStart(found.textNode, found.match.index);
+                    newRng.setEnd(found.textNode, found.match.index + found.match[0].length);
+                    editorRef.selection.setRng(newRng);
+                }
+                editorRef.selection.setContent('');
+
+                // 3. Xóa đúng ảnh tương ứng
+                if (imgNode) {
+                    editorRef.dom.remove(imgNode);
+                } else {
+                    // Phòng hờ: nếu không xác định được vị trí nhưng toàn nội dung chỉ có đúng 1 ảnh khớp id thì vẫn xóa ảnh đó
+                    var allImgs = editorRef.dom.select('#tablepress-img-' + tableId);
+                    if (allImgs.length === 1) {
+                        editorRef.dom.remove(allImgs[0]);
+                    }
+                }
+            }
+
             // Tạo khung menu chuột phải custom cố định (Chỉ chạy DUY NHẤT 1 LẦN)
             var baseEditUrl = '<?php echo admin_url("admin.php?page=tablepress&action=edit&table_id="); ?>';
-            var $menu = $('<div id="tp-acf-menu" style="position:fixed; display:none; background:#fff; border:1px solid #ccd0d4; box-shadow:0 4px 10px rgba(0,0,0,0.2); z-index:99999999; border-radius:4px; padding:5px 0; min-width:200px;"><a id="tp-acf-link" href="#" target="_blank" style="display:block; padding:10px 15px; color:#0073aa; text-decoration:none; font-weight:bold; font-size:13px;">📝 Sửa bảng TablePress</a></div>');
+
+            // Biến lưu ngữ cảnh (context) của lần chuột phải gần nhất, dùng cho chức năng xóa
+            var currentMode = null;      // 'text' hoặc 'visual'
+            var currentTableId = null;
+            var currentTextarea = null;
+            var currentSelStart = 0;
+            var currentSelEnd = 0;
+            var currentEditor = null;
+            var currentBookmark = null;
+
+            var $menu = $('<div id="tp-acf-menu" style="position:fixed; display:none; background:#fff; border:1px solid #ccd0d4; box-shadow:0 4px 10px rgba(0,0,0,0.2); z-index:99999999; border-radius:4px; padding:5px 0; min-width:200px;">' +
+                '<a id="tp-acf-link" href="#" target="_blank" style="display:block; padding:10px 15px; color:#0073aa; text-decoration:none; font-weight:bold; font-size:13px;">📝 Sửa bảng TablePress</a>' +
+                '<a id="tp-acf-delete-link" href="#" style="display:block; padding:10px 15px; color:#d63638; text-decoration:none; font-weight:bold; font-size:13px; border-top:1px solid #eee;">🗑️ Xóa bảng TablePress</a>' +
+                '</div>');
             $('body').append($menu);
 			
 			// Hàm ẩn menu chung
@@ -51,6 +211,40 @@ function tablepress_acf_quick_edit() {
                 }
             });
 
+            // 2.3. Xử lý click vào "Xóa bảng TablePress"
+            $(document).on('click', '#tp-acf-delete-link', function(e) {
+                e.preventDefault();
+
+                if (!currentTableId) {
+                    hideMenu();
+                    return;
+                }
+
+                var tableIdToDelete = currentTableId;
+                var modeToUse = currentMode;
+                var textareaRef = currentTextarea;
+                var selStart = currentSelStart;
+                var selEnd = currentSelEnd;
+                var editorRef = currentEditor;
+                var bookmarkRef = currentBookmark;
+
+                hideMenu();
+
+                if (!confirm('Xóa ID bảng "' + tableIdToDelete + '" và hình ảnh đi kèm (nếu có) khỏi nội dung đang soạn?\n\nThao tác này chỉ ảnh hưởng tới nội dung đang soạn ở đây, KHÔNG thay đổi dữ liệu của bảng TablePress, KHÔNG xóa link ảnh hay bất kỳ file nào trong Media Library.')) {
+                    return;
+                }
+
+                // Chỉ gỡ dòng [table id=...] + ảnh id="tablepress-img-{id}" ra khỏi nội dung editor, không đụng gì tới server/dữ liệu
+                if (modeToUse === 'text' && textareaRef) {
+                    var newVal = removeTableAndImageFromTextarea(textareaRef.value, tableIdToDelete, selStart, selEnd);
+                    textareaRef.value = newVal;
+                    $(textareaRef).trigger('change');
+                } else if (modeToUse === 'visual' && editorRef && bookmarkRef) {
+                    editorRef.selection.moveToBookmark(bookmarkRef);
+                    removeTableAndImageFromEditor(editorRef, tableIdToDelete);
+                }
+            });
+
             // 2.1. Xử lý chuột phải ở chế độ "Văn bản" (Text mode) của ACF Editor
             $(document).on('contextmenu', '.acf-field-wysiwyg textarea', function(e) {
                 var selectedText = window.getSelection().toString().trim();
@@ -58,7 +252,17 @@ function tablepress_acf_quick_edit() {
 
                 if (tableId) {
                     e.preventDefault();
+
+                    currentMode = 'text';
+                    currentTableId = tableId;
+                    currentTextarea = this;
+                    currentSelStart = this.selectionStart;
+                    currentSelEnd = this.selectionEnd;
+                    currentEditor = null;
+                    currentBookmark = null;
+
                     $menu.find('#tp-acf-link').attr('href', baseEditUrl + tableId).text('📝 Sửa bảng: ' + tableId);
+                    $menu.find('#tp-acf-delete-link').text('🗑️ Xóa bảng: ' + tableId);
                     $menu.css({ top: e.clientY + 'px', left: e.clientX + 'px' }).show();
                 }
             });
@@ -76,12 +280,19 @@ function tablepress_acf_quick_edit() {
 
                                 if (tableId) {
                                     e.preventDefault();
-                                    
+
+                                    currentMode = 'visual';
+                                    currentTableId = tableId;
+                                    currentTextarea = null;
+                                    currentEditor = editor;
+                                    currentBookmark = editor.selection.getBookmark(1);
+
                                     var iframeOffset = $(editor.iframeElement).offset();
                                     var top = iframeOffset.top + e.clientY - $(window).scrollTop();
                                     var left = iframeOffset.left + e.clientX;
 
                                     $menu.find('#tp-acf-link').attr('href', baseEditUrl + tableId).text('📝 Sửa bảng: ' + tableId);
+                                    $menu.find('#tp-acf-delete-link').text('🗑️ Xóa bảng: ' + tableId);
                                     $menu.css({ top: top + 'px', left: left + 'px' }).show();
                                 }
                             });
