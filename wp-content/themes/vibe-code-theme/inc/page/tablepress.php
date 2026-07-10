@@ -65,10 +65,10 @@ function tablepress_acf_quick_edit() {
                 return best;
             }
 
-            // (Chế độ Văn bản) Xóa TRỌN VẸN đoạn [table id=...] đang được chọn, cùng ảnh đi kèm NGAY SAU đoạn đó.
-            // Quan trọng: khi cùng 1 bảng được chèn nhiều lần, id="tablepress-img-xxx" sẽ bị TRÙNG NHAU giữa các ảnh,
-            // nên không thể chỉ dựa vào id để xóa (sẽ xóa nhầm/xóa hết mọi ảnh trùng id). Thay vào đó, ta xác định
-            // đúng VỊ TRÍ của shortcode đang xóa, rồi chỉ xóa ảnh xuất hiện ngay sau vị trí đó (và không có shortcode nào khác chen giữa).
+            // (Chế độ Văn bản) Xóa TRỌN VẸN đoạn [table id=...] đang được chọn, cùng khối ảnh xem trước đi kèm NGAY SAU đoạn đó.
+            // Quan trọng: khi cùng 1 bảng được chèn nhiều lần, data-table-id="xxx" sẽ bị TRÙNG NHAU giữa các khối ảnh,
+            // nên không thể chỉ dựa vào id để xóa (sẽ xóa nhầm/xóa hết mọi khối trùng id). Thay vào đó, ta xác định
+            // đúng VỊ TRÍ của shortcode đang xóa, rồi chỉ xóa khối ảnh xuất hiện ngay sau vị trí đó (và không có shortcode nào khác chen giữa).
             function removeTableAndImageFromTextarea(val, tableId, selStart, selEnd) {
                 var shortcodeRange = findFullShortcodeRange(val, tableId, selStart, selEnd);
                 var rangesToRemove = [];
@@ -82,17 +82,27 @@ function tablepress_acf_quick_edit() {
                     shortcodeEnd = selEnd;
                 }
 
-                // Tìm ảnh đi kèm: chỉ chấp nhận nếu nó xuất hiện NGAY SAU shortcode này (trước khi gặp 1 shortcode [table id=...] khác)
-                var imgRegex = new RegExp('<img[^>]*\\bid=["\']tablepress-img-' + escapeRegExp(tableId) + '["\'][^>]*>\\s*', 'i');
                 var searchText = val.slice(shortcodeEnd);
-                var imgMatch = imgRegex.exec(searchText);
 
-                if (imgMatch) {
-                    var beforeImg = searchText.slice(0, imgMatch.index);
-                    if (!/\[table\s+id=/i.test(beforeImg)) {
-                        var imgStart = shortcodeEnd + imgMatch.index;
-                        var imgEnd = imgStart + imgMatch[0].length;
-                        rangesToRemove.push({ start: imgStart, end: imgEnd });
+                // 1. Ưu tiên tìm khối ảnh xem trước dạng mới: <div class="tablepress-preview-wrap" data-table-id="xxx">...</div>
+                var wrapRegex = new RegExp(
+                    '<div(?=[^>]*\\bclass=["\'][^"\']*tablepress-preview-wrap[^"\']*["\'])(?=[^>]*\\bdata-table-id=["\']' + escapeRegExp(tableId) + '["\'])[^>]*>[\\s\\S]*?<\\/div>\\s*',
+                    'i'
+                );
+                var match = wrapRegex.exec(searchText);
+
+                // 2. Không thấy -> phòng hờ nội dung cũ chỉ có thẻ <img id="tablepress-img-xxx"> đơn thuần (định dạng trước khi có khối wrap)
+                if (!match) {
+                    var imgRegex = new RegExp('<img[^>]*\\bid=["\']tablepress-img-' + escapeRegExp(tableId) + '["\'][^>]*>\\s*', 'i');
+                    match = imgRegex.exec(searchText);
+                }
+
+                if (match) {
+                    var beforeMatch = searchText.slice(0, match.index);
+                    if (!/\[table\s+id=/i.test(beforeMatch)) {
+                        var matchStart = shortcodeEnd + match.index;
+                        var matchEnd = matchStart + match[0].length;
+                        rangesToRemove.push({ start: matchStart, end: matchEnd });
                     }
                 }
 
@@ -127,14 +137,16 @@ function tablepress_acf_quick_edit() {
                 return null;
             }
 
-            // Duyệt DOM theo đúng thứ tự tài liệu, bắt đầu từ startNode, để tìm ảnh có id trùng khớp XUẤT HIỆN SAU nó đầu tiên.
+            // Duyệt DOM theo đúng thứ tự tài liệu, bắt đầu từ startNode, để tìm khối ảnh xem trước có id trùng khớp XUẤT HIỆN SAU nó đầu tiên.
             // Cách này tránh xóa nhầm ảnh khi có nhiều bảng giống nhau (cùng id) trong cùng nội dung.
+            // Ưu tiên khối mới (div.tablepress-preview-wrap), phòng hờ nội dung cũ thì mới xét ảnh <img> trần.
             function findFollowingImageById(editorRef, startNode, tableId) {
                 if (!startNode) return null;
-                var targetId = 'tablepress-img-' + tableId;
+                var targetImgId = 'tablepress-img-' + tableId;
                 var walker = editorRef.dom.doc.createTreeWalker(editorRef.getBody(), NodeFilter.SHOW_ELEMENT, null, false);
                 var passedStart = false;
                 var node;
+                var fallbackImg = null;
 
                 while ((node = walker.nextNode())) {
                     if (!passedStart) {
@@ -143,20 +155,49 @@ function tablepress_acf_quick_edit() {
                         }
                         continue;
                     }
-                    if (node.nodeName === 'IMG' && node.id === targetId) {
+
+                    if (node.nodeName === 'DIV' &&
+                        editorRef.dom.hasClass(node, 'tablepress-preview-wrap') &&
+                        node.getAttribute('data-table-id') === tableId) {
                         return node;
                     }
+
+                    if (!fallbackImg && node.nodeName === 'IMG' && node.id === targetImgId) {
+                        fallbackImg = node;
+                    }
                 }
-                return null;
+                return fallbackImg;
             }
 
-            // (Chế độ Trực quan) Xóa TRỌN VẸN đoạn [table id=...] đang được chọn, cùng ảnh đi kèm đúng vị trí (không xóa nhầm ảnh trùng id)
+            // Duyệt DOM theo đúng thứ tự tài liệu để tìm dòng "[table id=xxx /]" gần nhất XUẤT HIỆN TRƯỚC 1 node cho trước.
+            // Dùng khi người dùng chuột phải thẳng vào ẢNH (không bôi đen text) -> cần tìm ngược lại dòng shortcode tương ứng.
+            function locatePrecedingShortcodeTextNode(editorRef, tableId, beforeNode) {
+                var regex = new RegExp('\\[table\\s+id=["\']?' + escapeRegExp(tableId) + '["\']?\\s*\\/\\]', 'i');
+                var walker = editorRef.dom.doc.createTreeWalker(editorRef.getBody(), NodeFilter.SHOW_TEXT, null, false);
+                var node;
+                var lastFound = null;
+
+                while ((node = walker.nextNode())) {
+                    var pos = node.compareDocumentPosition(beforeNode);
+                    var nodeIsBeforeTarget = !!(pos & Node.DOCUMENT_POSITION_FOLLOWING);
+                    if (!nodeIsBeforeTarget) {
+                        break; // đã tới hoặc vượt qua beforeNode trong thứ tự tài liệu -> dừng
+                    }
+                    var match = regex.exec(node.data);
+                    if (match) {
+                        lastFound = { textNode: node, match: match };
+                    }
+                }
+                return lastFound;
+            }
+
+            // (Chế độ Trực quan) Xóa TRỌN VẸN đoạn [table id=...] đang được chọn, cùng khối ảnh xem trước đi kèm đúng vị trí (không xóa nhầm ảnh trùng id)
             function removeTableAndImageFromEditor(editorRef, tableId) {
                 var found = locateShortcodeTextNode(editorRef, tableId);
                 var startBlock = found ? (editorRef.dom.getParent(found.textNode, editorRef.dom.isBlock) || found.textNode) : null;
 
-                // 1. Xác định ảnh đi kèm ĐÚNG của lần xuất hiện này TRƯỚC KHI xóa chữ (để còn định vị được trong DOM)
-                var imgNode = findFollowingImageById(editorRef, startBlock, tableId);
+                // 1. Xác định khối ảnh đi kèm ĐÚNG của lần xuất hiện này TRƯỚC KHI xóa chữ (để còn định vị được trong DOM)
+                var imgBlock = findFollowingImageById(editorRef, startBlock, tableId);
 
                 // 2. Xóa dòng [table id=...]
                 if (found) {
@@ -167,16 +208,64 @@ function tablepress_acf_quick_edit() {
                 }
                 editorRef.selection.setContent('');
 
-                // 3. Xóa đúng ảnh tương ứng
-                if (imgNode) {
-                    editorRef.dom.remove(imgNode);
+                // 3. Xóa đúng khối ảnh tương ứng
+                if (imgBlock) {
+                    editorRef.dom.remove(imgBlock);
                 } else {
-                    // Phòng hờ: nếu không xác định được vị trí nhưng toàn nội dung chỉ có đúng 1 ảnh khớp id thì vẫn xóa ảnh đó
-                    var allImgs = editorRef.dom.select('#tablepress-img-' + tableId);
-                    if (allImgs.length === 1) {
-                        editorRef.dom.remove(allImgs[0]);
+                    // Phòng hờ: nếu không xác định được vị trí nhưng toàn nội dung chỉ có đúng 1 khối/ảnh khớp id thì vẫn xóa
+                    var allWraps = editorRef.dom.select('.tablepress-preview-wrap[data-table-id="' + tableId + '"]');
+                    if (allWraps.length === 1) {
+                        editorRef.dom.remove(allWraps[0]);
+                    } else {
+                        var allImgs = editorRef.dom.select('#tablepress-img-' + tableId);
+                        if (allImgs.length === 1) {
+                            editorRef.dom.remove(allImgs[0]);
+                        }
                     }
                 }
+            }
+
+            // (Chế độ Trực quan) Trường hợp click phải THẲNG VÀO ẢNH: đã biết chính xác khối ảnh cần xóa (clickedEl),
+            // chỉ cần tìm ngược lại dòng [table id=...] gần nhất đứng TRƯỚC nó để xóa kèm.
+            function removeTableAndImageFromEditorByImage(editorRef, tableId, clickedEl) {
+                var precedingShortcode = locatePrecedingShortcodeTextNode(editorRef, tableId, clickedEl);
+
+                if (precedingShortcode) {
+                    var rng = editorRef.dom.createRng();
+                    rng.setStart(precedingShortcode.textNode, precedingShortcode.match.index);
+                    rng.setEnd(precedingShortcode.textNode, precedingShortcode.match.index + precedingShortcode.match[0].length);
+                    editorRef.selection.setRng(rng);
+                    editorRef.selection.setContent('');
+                }
+
+                // Xóa khối ảnh/preview đã xác định được ngay từ lúc chuột phải
+                if (clickedEl) {
+
+                    // Nếu click vào ảnh thì lấy div.preview-wrap chứa cả ảnh + badge
+                    var wrap = editorRef.dom.getParent(clickedEl, function(n) {
+                        return n.nodeType === 1 &&
+                            editorRef.dom.hasClass(n, 'tablepress-preview-wrap');
+                    });
+
+                    if (wrap) {
+                        editorRef.dom.remove(wrap);
+                    } else if (clickedEl.parentNode) {
+                        editorRef.dom.remove(clickedEl);
+                    }
+                }
+            }
+
+
+            // Kiểm tra vị trí có đang nằm TRONG nhãn badge (.tablepress-preview-badge) không.
+            // Cần thiết vì text hiển thị trên badge giờ trùng định dạng "[table id=... /]" với shortcode thật,
+            // nên phải loại trừ để không nhầm là đang bôi đen shortcode thật khi ở chế độ Văn bản.
+            function isPositionInsideBadge(val, pos) {
+                var openTag = '<span class="tablepress-preview-badge"';
+                var lastOpen = val.lastIndexOf(openTag, pos);
+                if (lastOpen === -1) return false;
+                var closeIdx = val.indexOf('</span>', lastOpen);
+                if (closeIdx === -1) return false;
+                return pos <= closeIdx;
             }
 
             // Tạo khung menu chuột phải custom cố định (Chỉ chạy DUY NHẤT 1 LẦN)
@@ -190,6 +279,8 @@ function tablepress_acf_quick_edit() {
             var currentSelEnd = 0;
             var currentEditor = null;
             var currentBookmark = null;
+            var currentClickKind = 'text';   // 'text' (bôi đen dòng shortcode) hoặc 'image' (click phải thẳng vào ảnh)
+            var currentClickedEl = null;     // phần tử DOM (ảnh/khối preview) khi currentClickKind === 'image'
 
             var $menu = $('<div id="tp-acf-menu" style="position:fixed; display:none; background:#fff; border:1px solid #ccd0d4; box-shadow:0 4px 10px rgba(0,0,0,0.2); z-index:99999999; border-radius:4px; padding:5px 0; min-width:200px;">' +
                 '<a id="tp-acf-link" href="#" target="_blank" style="display:block; padding:10px 15px; color:#0073aa; text-decoration:none; font-weight:bold; font-size:13px;">📝 Sửa bảng TablePress</a>' +
@@ -227,6 +318,8 @@ function tablepress_acf_quick_edit() {
                 var selEnd = currentSelEnd;
                 var editorRef = currentEditor;
                 var bookmarkRef = currentBookmark;
+                var clickKindToUse = currentClickKind;
+                var clickedElToUse = currentClickedEl;
 
                 hideMenu();
 
@@ -234,21 +327,32 @@ function tablepress_acf_quick_edit() {
                     return;
                 }
 
-                // Chỉ gỡ dòng [table id=...] + ảnh id="tablepress-img-{id}" ra khỏi nội dung editor, không đụng gì tới server/dữ liệu
+                // Chỉ gỡ dòng [table id=...] + khối ảnh xem trước đi kèm ra khỏi nội dung editor, không đụng gì tới server/dữ liệu
                 if (modeToUse === 'text' && textareaRef) {
                     var newVal = removeTableAndImageFromTextarea(textareaRef.value, tableIdToDelete, selStart, selEnd);
                     textareaRef.value = newVal;
                     $(textareaRef).trigger('change');
-                } else if (modeToUse === 'visual' && editorRef && bookmarkRef) {
-                    editorRef.selection.moveToBookmark(bookmarkRef);
-                    removeTableAndImageFromEditor(editorRef, tableIdToDelete);
+                } else if (modeToUse === 'visual' && editorRef) {
+                    if (clickKindToUse === 'image' && clickedElToUse) {
+                        // Chuột phải thẳng vào ảnh -> đã có sẵn tham chiếu ảnh, chỉ cần tìm ngược dòng shortcode để xóa kèm
+                        removeTableAndImageFromEditorByImage(editorRef, tableIdToDelete, clickedElToUse);
+                    } else if (bookmarkRef) {
+                        editorRef.selection.moveToBookmark(bookmarkRef);
+                        removeTableAndImageFromEditor(editorRef, tableIdToDelete);
+                    }
                 }
             });
+
 
             // 2.1. Xử lý chuột phải ở chế độ "Văn bản" (Text mode) của ACF Editor
             $(document).on('contextmenu', '.acf-field-wysiwyg textarea', function(e) {
                 var selectedText = window.getSelection().toString().trim();
                 var tableId = extractTableId(selectedText);
+
+                // Bỏ qua nếu vùng bôi đen nằm trong nhãn badge (chỉ là text hiển thị, không phải shortcode thật)
+                if (tableId && isPositionInsideBadge(this.value, this.selectionStart)) {
+                    tableId = null;
+                }
 
                 if (tableId) {
                     e.preventDefault();
@@ -260,6 +364,8 @@ function tablepress_acf_quick_edit() {
                     currentSelEnd = this.selectionEnd;
                     currentEditor = null;
                     currentBookmark = null;
+                    currentClickKind = 'text';
+                    currentClickedEl = null;
 
                     $menu.find('#tp-acf-link').attr('href', baseEditUrl + tableId).text('📝 Sửa bảng: ' + tableId);
                     $menu.find('#tp-acf-delete-link').text('🗑️ Xóa bảng: ' + tableId);
@@ -277,6 +383,39 @@ function tablepress_acf_quick_edit() {
                             editor.on('contextmenu', function(e) {
                                 var selectedText = editor.selection.getContent({format: 'text'}).trim();
                                 var tableId = extractTableId(selectedText);
+                                var clickKind = 'text';
+                                var clickedBlockEl = null;
+
+                                // Nếu không bôi đen được text nào phù hợp (ví dụ click phải ngay trên ảnh),
+                                // thử lấy tableId trực tiếp từ chính phần tử ảnh/khối preview đang được click
+                                if (!tableId) {
+                                    var targetEl = e.target;
+                                    var wrapOrImg = editor.dom.getParent(targetEl, function(n) {
+                                        return n.nodeType === 1 && (
+                                            editor.dom.hasClass(n, 'tablepress-preview-wrap') ||
+                                            editor.dom.hasClass(n, 'tablepress-attached-image')
+                                        );
+                                    });
+                                    if (wrapOrImg) {
+                                        var idFromAttr = wrapOrImg.getAttribute('data-table-id');
+                                        if (idFromAttr) {
+                                            tableId = idFromAttr;
+                                            clickKind = 'image';
+                                            clickedBlockEl = wrapOrImg;
+                                        }
+                                    }
+                                }
+
+                                // Bỏ qua nếu đang chọn/click vào bên trong nhãn badge (chỉ là hiển thị, không phải shortcode thật).
+                                // Phòng hờ thêm dù badge đã có pointer-events:none nên bình thường không click trúng được.
+                                if (tableId && clickKind === 'text') {
+                                    var selNode = editor.selection.getNode();
+                                    if (editor.dom.getParent(selNode, function(n) {
+                                        return n.nodeType === 1 && editor.dom.hasClass(n, 'tablepress-preview-badge');
+                                    })) {
+                                        tableId = null;
+                                    }
+                                }
 
                                 if (tableId) {
                                     e.preventDefault();
@@ -285,7 +424,9 @@ function tablepress_acf_quick_edit() {
                                     currentTableId = tableId;
                                     currentTextarea = null;
                                     currentEditor = editor;
-                                    currentBookmark = editor.selection.getBookmark(1);
+                                    currentClickKind = clickKind;
+                                    currentClickedEl = clickedBlockEl;
+                                    currentBookmark = (clickKind === 'text') ? editor.selection.getBookmark(1) : null;
 
                                     var iframeOffset = $(editor.iframeElement).offset();
                                     var top = iframeOffset.top + e.clientY - $(window).scrollTop();

@@ -80,10 +80,14 @@ function custom_tablepress_popup_html() {
                 // Mã shortcode TablePress (thêm \n để xuống dòng rõ ràng)
                 var contentToInsert = '[table id=' + tableId + ' /]\n';
                 
-                // Nếu tồn tại ảnh của TablePress, chèn thẻ img thu nhỏ ngay bên dưới
+                // Nếu tồn tại ảnh của TablePress, chèn khối ảnh xem trước (có badge ID nổi trên ảnh) ngay bên dưới.
+                // Khối này CHỈ để tham khảo lúc soạn thảo -> sẽ bị lọc bỏ khỏi trang thực tế (xem hàm tablepress_strip_preview_image_frontend)
                 if ( imageUrl && imageUrl.trim() !== '' ) {
                     // Bạn có thể thay đổi width: 150px thành kích thước bạn muốn (ví dụ: 100px, 200px)
-                    contentToInsert += '<img src="' + imageUrl + '" alt="Hình ảnh cho table ' + tableId + '" class="tablepress-attached-image" style="width:150px; max-width:100%; height:auto; display:block; margin-top:10px;" />\n';
+                    contentToInsert += '<div class="tablepress-preview-wrap" data-table-id="' + tableId + '" style="position:relative; display:inline-block; width:150px; margin-top:10px;">' +
+                        '<img id="tablepress-img-' + tableId + '" src="' + imageUrl + '" alt="Hình ảnh cho table ' + tableId + '" class="tablepress-attached-image" data-table-id="' + tableId + '" style="width:150px; max-width:100%; height:auto; display:block; border-radius:6px;" />' +
+                        '<span class="tablepress-preview-badge" contenteditable="false" unselectable="on" style="position:absolute; top:6px; left:6px; background:#2271b1; color:#fff; font-size:11px; line-height:1; padding:3px 6px; border-radius:4px; font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',sans-serif; font-weight:600; white-space:nowrap; pointer-events:none; user-select:none;">[table id=' + tableId + ' /]</span>' +
+                        '</div>\n';
                 }
 
                 // Thực hiện chèn nội dung vào Trình soạn thảo (Hỗ trợ cả ACF WYSIWYG)
@@ -106,6 +110,30 @@ function custom_tablepress_popup_html() {
     <?php
 }
 add_action( 'admin_footer', 'custom_tablepress_popup_html' );
+
+/**
+ * Lọc bỏ khối ảnh xem trước (.tablepress-preview-wrap) khỏi nội dung khi hiển thị cho khách ở trang thực tế.
+ * Khối này chỉ mang tính minh họa giúp người soạn thảo hình dung bảng, KHÔNG được phép xuất hiện trên frontend.
+ */
+add_filter( 'the_content', 'tablepress_strip_preview_image_frontend', 20 );
+function tablepress_strip_preview_image_frontend( $content ) {
+    // Chỉ lọc ở phía hiển thị công khai, giữ nguyên nội dung khi đang xem/sửa trong khu vực quản trị
+    if ( is_admin() ) {
+        return $content;
+    }
+
+    if ( strpos( $content, 'tablepress-preview-wrap' ) === false ) {
+        return $content;
+    }
+
+    $content = preg_replace(
+        '/<div[^>]*\bclass=["\'][^"\']*tablepress-preview-wrap[^"\']*["\'][^>]*>.*?<\/div>\s*/is',
+        '',
+        $content
+    );
+
+    return $content;
+}
 //end - Buttom TablePress
 //
 function vibe_code_enqueue_assets() {
